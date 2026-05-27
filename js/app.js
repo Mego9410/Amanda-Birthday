@@ -8,22 +8,26 @@
    PHOTO + MESSAGE CONFIG
 ============================================================ */
 const PHOTOS = [
-  { file: 'photo1.jpg',  caption: 'literally iconic 💋',   grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)' },
-  { file: 'photo2.jpg',  caption: 'queen behaviour 🖤',    grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)' },
-  { file: 'photo3.jpg',  caption: 'best day ever ✨',      grad: 'linear-gradient(135deg,#FF69B4,#FFB6C1)' },
-  { file: 'photo4.jpg',  caption: 'pure magic 🌸',         grad: 'linear-gradient(135deg,#C2185B,#E91E8C)' },
-  { file: 'photo5.jpg',  caption: 'so obsessed with her',  grad: 'linear-gradient(135deg,#FFB6C1,#E91E8C)' },
-  { file: 'photo6.jpg',  caption: 'golden girl ⭐',        grad: 'linear-gradient(135deg,#E91E8C,#0D0D0D)' },
-  { file: 'photo7.jpg',  caption: 'iconic tbh 💅',         grad: 'linear-gradient(135deg,#FF69B4,#C2185B)' },
-  { file: 'photo8.jpg',  caption: 'the bestie 🖤',         grad: 'linear-gradient(135deg,#0D0D0D,#E91E8C)' },
-  { file: 'photo9.jpg',  caption: 'forever & ever 💋',     grad: 'linear-gradient(135deg,#C2185B,#FF69B4)' },
-  { file: 'photo10.jpg', caption: 'main character energy', grad: 'linear-gradient(135deg,#FFB6C1,#C2185B)' },
-  { file: 'photo11.jpg', caption: 'grool moment 🌸',       grad: 'linear-gradient(135deg,#E91E8C,#FFB6C1)' },
-  { file: 'photo12.jpg', caption: 'here\'s to you 🥂',    grad: 'linear-gradient(135deg,#0D0D0D,#FF69B4)' },
+  { file: 'photo1.jpg',  caption: 'laugh out loud 💋',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)' },
+  { file: 'photo2.jpg',  caption: 'karaoke queens 🎤',        grad: 'linear-gradient(135deg,#C2185B,#E91E8C)' },
+  { file: 'photo3.jpg',  caption: 'the dress 👰',             grad: 'linear-gradient(135deg,#FFB6C1,#FF69B4)' },
+  { file: 'photo4.jpg',  caption: 'moustache moment 🥸',      grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)' },
+  { file: 'photo5.jpg',  caption: 'crowned 👑',               grad: 'linear-gradient(135deg,#E91E8C,#FFB6C1)' },
+  { file: 'photo6.jpg',  caption: 'auntie vibes 🍼',          grad: 'linear-gradient(135deg,#FF69B4,#C2185B)' },
+  { file: 'photo7.jpg',  caption: 'camden nights 🖤',         grad: 'linear-gradient(135deg,#0D0D0D,#E91E8C)' },
+  { file: 'photo8.jpg',  caption: 'underworld era 🕶️',       grad: 'linear-gradient(135deg,#C2185B,#0D0D0D)' },
+  { file: 'photo9.jpg',  caption: 'spooky szn 🎃',            grad: 'linear-gradient(135deg,#E91E8C,#C2185B)' },
+  { file: 'photo10.jpg', caption: 'legoland szn 🧱',          grad: 'linear-gradient(135deg,#FFB6C1,#E91E8C)' },
+  { file: 'photo11.jpg', caption: 'hen do ☕',                grad: 'linear-gradient(135deg,#FF69B4,#FFB6C1)' },
+  { file: 'photo12.jpg', caption: 'main character 🎤',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)' },
+  { file: 'photo13.jpg', caption: 'theme park gang 💦',       grad: 'linear-gradient(135deg,#0D0D0D,#FF69B4)' },
+  { file: 'photo14.jpg', caption: 'bride to be 💍',           grad: 'linear-gradient(135deg,#C2185B,#FFB6C1)' },
+  { file: 'photo15.jpg', caption: 'disneyland paris 🏰',      grad: 'linear-gradient(135deg,#FF69B4,#E91E8C)' },
+  { file: 'photo16.jpg', caption: 'emo night forever 🖤',     grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)' },
 ];
 
 const TAPE_COLORS = ['#E91E8C','#0D0D0D','#C2185B','#FF69B4','#FFB6C1'];
-const ROTATIONS   = [-10,-7,-5,-3,-1,0,1,3,5,7,9,11];
+const ROTATIONS   = [-10,-7,-5,-3,-1,0,1,3,5,7,9,11,-8,6,-4,8];
 
 const MESSAGES = [
   { from: '[Your Name]', text: 'Amanda — you are genuinely one of a kind. Every room you walk into is instantly better. Wishing you the most iconic birthday. Love you to bits! 💋',                                            icon: '💋' },
