@@ -60,7 +60,7 @@ const PASSWORD_REDACTED = '2026Amanda';
 
 const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
 const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+let supabase = null;
 
 function handlePasswordSubmit() {
   const val = inputEl.value.trim();
@@ -350,6 +350,7 @@ function buildMessages() {
    RSVP
 ============================================================ */
 function initRSVP() {
+  if (!supabase) supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
   const form        = document.getElementById('rsvp-form');
   const submitBtn   = document.getElementById('rsvp-submit');
   const rsvpErrorEl = document.getElementById('rsvp-error');
