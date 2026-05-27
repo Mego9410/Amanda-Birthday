@@ -194,6 +194,13 @@
           This website is a tiny love letter from everyone who adores you. Scroll through the memories, read the notes, and know that you are completely and utterly obsessed-with, in the best possible way. Happy birthday! 💋
         </p>
 
+        <p class="story-body story-party-details reveal delay-3">
+          Join us at <span class="redact">The Venue Name, London</span> on
+          <span class="redact">Saturday 15th March 2026</span> from
+          <span class="redact">7:30pm onwards</span>.
+          RSVP below by <span class="redact">1st March</span>.
+        </p>
+
         <div class="story-sign reveal delay-4">— your people xo</div>
       </div>
 
@@ -277,7 +284,70 @@
   </section>
 
   <!-- ========================================================
-       SECTION 5: CLOSING
+       SECTION 5: RSVP
+  ======================================================== -->
+  <section id="rsvp" class="rsvp" aria-label="RSVP">
+    <div class="container rsvp-inner">
+      <p class="section-label reveal">RSVP</p>
+      <h2 class="rsvp-heading reveal delay-1">
+        <span class="cut cut-1" style="--r:-2deg">ARE</span>
+        <span class="cut cut-4" style="--r: 1deg">YOU</span>
+        <span class="cut cut-2" style="--r:-1deg">COMING</span><span class="cut cut-6" style="--r: 2deg">?</span>
+      </h2>
+      <p class="rsvp-sub reveal delay-2">Let us know, darling.</p>
+
+      <form id="rsvp-form" class="rsvp-form reveal delay-3" novalidate>
+
+        <div class="rsvp-field">
+          <label for="rsvp-name">Full Name</label>
+          <input type="text" id="rsvp-name" name="full_name" required
+                 placeholder="Your full name" autocomplete="name">
+        </div>
+
+        <div class="rsvp-field">
+          <label for="rsvp-email">Email Address</label>
+          <input type="email" id="rsvp-email" name="email" required
+                 placeholder="your@email.com" autocomplete="email">
+        </div>
+
+        <div class="rsvp-field">
+          <p class="field-label">Are you coming?</p>
+          <div class="rsvp-attendance" role="group" aria-label="Attendance">
+            <button type="button" class="attend-btn" data-val="yes">YES 🥂</button>
+            <button type="button" class="attend-btn" data-val="no">NO 😭</button>
+            <button type="button" class="attend-btn" data-val="maybe">MAYBE 🤔</button>
+          </div>
+          <input type="hidden" id="rsvp-attending" name="attending">
+        </div>
+
+        <div class="rsvp-field">
+          <label for="rsvp-dietary">
+            Dietary requirements <span class="optional">(optional)</span>
+          </label>
+          <textarea id="rsvp-dietary" name="dietary" rows="3"
+                    placeholder="Any dietary needs?"></textarea>
+        </div>
+
+        <button type="submit" class="rsvp-submit" id="rsvp-submit">
+          <span class="btn-label">Send RSVP</span>
+          <span class="btn-loading" hidden>Sending…</span>
+        </button>
+
+        <p class="rsvp-error" id="rsvp-error" hidden></p>
+      </form>
+
+      <div id="rsvp-success" class="rsvp-success" hidden>
+        <div class="success-card">
+          <p class="success-emoji">💋</p>
+          <p class="success-msg">We've got you!</p>
+          <p class="success-sub">See you there, darling.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SECTION 6: CLOSING
   ======================================================== -->
   <section id="closing" class="closing" aria-label="Closing">
 
@@ -349,6 +419,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

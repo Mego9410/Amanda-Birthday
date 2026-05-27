@@ -32,6 +32,7 @@ const MESSAGES = [
   { from: '[Your Name]', text: 'Happy birthday to the person who\'s like, really pretty, and also incredibly smart, hilarious, and kind. You\'re the whole package! 🌸',                                                    icon: '🌸' },
   { from: '[Your Name]', text: 'On Wednesdays we wear pink — but every day we celebrate having Amanda in our lives. You are SO loved. Have the best day! 💗',                                                               icon: '💗' },
   { from: '[Your Name]', text: 'The limit does not exist when it comes to how much we adore you. Here\'s to the most fetch birthday ever. You absolute queen! 👑',                                                          icon: '👑' },
+  { from: '[Your Name]', text: 'The party is at <span class="redact">The Venue, London</span> on <span class="redact">Saturday 15th March</span> from <span class="redact">7:30pm</span>. RSVP below by <span class="redact">1st March</span>. Can\'t wait! 🥂', icon: '📍', classified: true },
 ];
 
 /* ============================================================
@@ -54,14 +55,22 @@ const lbBackdropEl= document.getElementById('lb-backdrop');
 /* ============================================================
    PASSWORD GATE
 ============================================================ */
-const PASSWORD = 'Amanda2026';
+const PASSWORD_FULL     = 'Amanda2026';
+const PASSWORD_REDACTED = '2026Amanda';
+
+const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 function handlePasswordSubmit() {
-  if (inputEl.value.trim() === PASSWORD) {
+  const val = inputEl.value.trim();
+  if (val === PASSWORD_FULL || val === PASSWORD_REDACTED) {
+    const mode = val === PASSWORD_FULL ? 'full' : 'redacted';
     launchConfetti();
     gateEl.classList.add('exiting');
     setTimeout(() => {
       gateEl.hidden = true;
+      siteEl.dataset.mode = mode;
       siteEl.hidden = false;
       requestAnimationFrame(() => requestAnimationFrame(() => {
         splitWords();
@@ -69,6 +78,7 @@ function handlePasswordSubmit() {
         buildMessages();
         initScrollReveal();
         initParallax();
+        initRSVP();
       }));
     }, 800);
   } else {
@@ -325,7 +335,7 @@ function buildMessages() {
 
   MESSAGES.forEach(m => {
     const card = document.createElement('div');
-    card.className = 'msg-card reveal';
+    card.className = 'msg-card reveal' + (m.classified ? ' classified' : '');
     card.innerHTML = `
       <div class="msg-card-accent"></div>
       <span class="msg-icon">${m.icon}</span>
@@ -334,6 +344,60 @@ function buildMessages() {
     `;
     grid.appendChild(card);
   });
+}
+
+/* ============================================================
+   RSVP
+============================================================ */
+function initRSVP() {
+  const form        = document.getElementById('rsvp-form');
+  const submitBtn   = document.getElementById('rsvp-submit');
+  const rsvpErrorEl = document.getElementById('rsvp-error');
+  const successEl   = document.getElementById('rsvp-success');
+  const attendBtns  = form.querySelectorAll('.attend-btn');
+  const attendInput = document.getElementById('rsvp-attending');
+
+  attendBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      attendBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      attendInput.value = btn.dataset.val;
+    });
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    rsvpErrorEl.hidden = true;
+    const name      = form.full_name.value.trim();
+    const email     = form.email.value.trim();
+    const attending = attendInput.value;
+    const dietary   = form.dietary.value.trim();
+    if (!name)      { showRSVPError('Please enter your full name.'); return; }
+    if (!email)     { showRSVPError('Please enter your email address.'); return; }
+    if (!attending) { showRSVPError('Please select whether you\'re coming.'); return; }
+    setLoading(true);
+    const { error } = await supabase
+      .from('rsvps')
+      .insert({ full_name: name, email, attending, dietary: dietary || null });
+    setLoading(false);
+    if (error) {
+      showRSVPError('Something went wrong — please try again.');
+      console.error(error);
+    } else {
+      form.hidden = true;
+      successEl.hidden = false;
+    }
+  });
+
+  function showRSVPError(msg) {
+    rsvpErrorEl.textContent = msg;
+    rsvpErrorEl.hidden = false;
+  }
+  function setLoading(on) {
+    submitBtn.disabled = on;
+    submitBtn.querySelector('.btn-label').hidden = on;
+    submitBtn.querySelector('.btn-loading').hidden = !on;
+  }
 }
 
 /* ============================================================

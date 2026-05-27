@@ -1195,6 +1195,236 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 /* ============================================================
+   DUAL-PASSWORD REDACTION
+============================================================ */
+.redact {
+  border-radius: 2px;
+  padding: 1px 4px;
+  display: inline-block;
+  position: relative;
+  transition: background 0.2s, color 0.2s;
+}
+
+[data-mode="full"] .redact {
+  background: transparent;
+  color: inherit;
+}
+
+[data-mode="redacted"] .redact {
+  background: #050505;
+  color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+  min-width: 44px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+[data-mode="redacted"] .redact:hover::after {
+  content: 'REDACTED';
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Oswald', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--hot-pink);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+[data-mode="redacted"] .story::before {
+  content: 'CLASSIFIED';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(48px, 10vw, 110px);
+  font-weight: 700;
+  letter-spacing: 10px;
+  color: rgba(233,30,140,0.06);
+  border: 6px solid rgba(233,30,140,0.06);
+  padding: 10px 24px;
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+[data-mode="redacted"] .msg-card.classified {
+  position: relative;
+}
+
+[data-mode="redacted"] .msg-card.classified::after {
+  content: 'CLASSIFIED';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(18px, 4vw, 26px);
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: rgba(233,30,140,0.3);
+  border: 3px solid rgba(233,30,140,0.3);
+  padding: 5px 12px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+/* ============================================================
+   RSVP
+============================================================ */
+[data-mode="redacted"] .rsvp { display: none; }
+
+.rsvp { padding: clamp(60px, 10vw, 120px) 0; }
+
+.rsvp-inner { max-width: 700px; }
+
+.rsvp-heading {
+  font-family: var(--f-oswald);
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3em;
+  align-items: baseline;
+}
+
+.rsvp-sub {
+  font-family: var(--f-playfair);
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--cream);
+  opacity: 0.7;
+  margin: 0 0 3rem;
+}
+
+.rsvp-form {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rsvp-field { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.rsvp-field label,
+.rsvp-field .field-label {
+  font-family: var(--f-oswald);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cream);
+  opacity: 0.6;
+  margin: 0;
+}
+
+.rsvp-field input[type="text"],
+.rsvp-field input[type="email"],
+.rsvp-field textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 4px;
+  color: var(--cream);
+  font-family: var(--f-playfair);
+  font-size: 1rem;
+  padding: 12px 16px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.rsvp-field input[type="text"]:focus,
+.rsvp-field input[type="email"]:focus,
+.rsvp-field textarea:focus { border-color: var(--hot-pink); }
+
+.rsvp-attendance { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.attend-btn {
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  color: var(--cream);
+  cursor: pointer;
+  font-family: var(--f-oswald);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 10px 20px;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.attend-btn:hover { border-color: var(--hot-pink); color: var(--hot-pink); }
+.attend-btn.selected { background: var(--hot-pink); border-color: var(--hot-pink); color: #fff; }
+
+.rsvp-submit {
+  align-self: flex-start;
+  background: var(--hot-pink);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--f-oswald);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  padding: 14px 40px;
+  text-transform: uppercase;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.rsvp-submit:hover  { opacity: 0.85; transform: translateY(-1px); }
+.rsvp-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.rsvp-error {
+  color: #ff6b6b;
+  font-family: var(--f-oswald);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.optional {
+  font-family: var(--f-playfair);
+  font-style: italic;
+  font-size: 0.75em;
+  letter-spacing: 0;
+  opacity: 0.5;
+  text-transform: none;
+}
+
+.success-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(233,30,140,0.3);
+  border-radius: 6px;
+  padding: 40px 60px;
+  text-align: center;
+}
+.success-emoji { font-size: 3rem; margin: 0; }
+.success-msg {
+  font-family: var(--f-oswald);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--hot-pink);
+  margin: 0;
+}
+.success-sub {
+  font-family: var(--f-playfair);
+  font-style: italic;
+  color: var(--cream);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* ============================================================
    REDUCED MOTION
 ============================================================ */
 @media (prefers-reduced-motion: reduce) {
