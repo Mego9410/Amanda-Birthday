@@ -27,7 +27,7 @@ const PHOTOS = [
 ];
 
 const TAPE_COLORS = ['#E91E8C','#0D0D0D','#C2185B','#FF69B4','#FFB6C1'];
-const ROTATIONS   = [-10,-7,-5,-3,-1,0,1,3,5,7,9,11,-8,6,-4,8];
+const ROTATIONS   = [-14,-8,11,-5,9,-12,6,-9,13,-4,8,-15,5,-10,7,-3];
 
 const MESSAGES = [
   { from: '[Your Name]', text: 'Amanda — you are genuinely one of a kind. Every room you walk into is instantly better. Wishing you the most iconic birthday. Love you to bits! 💋',                                            icon: '💋' },
