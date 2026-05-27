@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amanda Birthday — Wireframe & Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       DESIGN SYSTEM — Tokens
+    ============================================================ */
+    :root {
+      --yellow:   #F5C842;
+      --coral:    #E8715A;
+      --sage:     #7BAF6F;
+      --cream:    #FFF8EE;
+      --earth:    #2C1810;
+      --pink:     #E8B4A0;
+      --purple:   #8B6BB1;
+      --sky:      #87CEEB;
+      --dark-bg:  #1A2C1A;
+      --sunset-a: #E8715A;
+      --sunset-b: #8B6BB1;
+      --sunset-c: #1A1A3E;
+
+      --font-display:    'Boogaloo', cursive;
+      --font-heading:    'Playfair Display', serif;
+      --font-body:       'Nunito', sans-serif;
+      --font-handwrite:  'Dancing Script', cursive;
+
+      --radius-card: 4px;
+      --shadow-polaroid: 4px 8px 24px rgba(0,0,0,0.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: #F0EBE0;
+      color: var(--earth);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       WIREFRAME META STYLES
+    ============================================================ */
+    .wf-page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .wf-label {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--earth);
+      color: white;
+      padding: 6px 14px;
+      display: inline-block;
+      margin-bottom: 0;
+    }
+
+    .wf-annotation {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: #666;
+      background: rgba(255,255,255,0.7);
+      border-left: 3px solid var(--coral);
+      padding: 6px 10px;
+      margin: 8px 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .wf-section-wrap {
+      margin: 24px 0;
+      border: 2px dashed #CCC;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .wf-section-header {
+      background: var(--earth);
+      color: white;
+      padding: 12px 20px;
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wf-section-header span {
+      font-weight: 400;
+      opacity: 0.6;
+      font-size: 11px;
+    }
+
+    /* ============================================================
+       INTRO / HEADER
+    ============================================================ */
+    .wf-intro {
+      background: var(--earth);
+      color: white;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .wf-intro h1 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 6vw, 64px);
+      color: var(--yellow);
+      margin-bottom: 8px;
+    }
+    .wf-intro p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      opacity: 0.7;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+    .wf-tags {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .wf-tag {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       SECTION 0: PASSWORD GATE
+    ============================================================ */
+    .gate-demo {
+      min-height: 80vh;
+      background: radial-gradient(ellipse at center, #1E3A1E 0%, #0D1F0D 70%, #050A05 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gate-demo::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(245,200,66,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(232,113,90,0.08) 0%, transparent 50%);
+    }
+
+    /* Floating star dots */
+    .gate-stars {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .gate-stars::before,
+    .gate-stars::after {
+      content: '✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦';
+      position: absolute;
+      top: 15%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: rgba(245,200,66,0.15);
+      font-size: 14px;
+      letter-spacing: 12px;
+    }
+    .gate-stars::after {
+      top: 75%;
+      color: rgba(245,200,66,0.08);
+    }
+
+    .gate-ticket {
+      background: var(--cream);
+      max-width: 460px;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+      position: relative;
+      z-index: 1;
+    }
+
+    .gate-ticket-top {
+      background: var(--yellow);
+      padding: 32px 32px 24px;
+      text-align: center;
+      position: relative;
+    }
+    .gate-ticket-top::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: var(--cream);
+      clip-path: polygon(0 100%, 5% 0, 10% 100%, 15% 0, 20% 100%, 25% 0, 30% 100%, 35% 0, 40% 100%, 45% 0, 50% 100%, 55% 0, 60% 100%, 65% 0, 70% 100%, 75% 0, 80% 100%, 85% 0, 90% 100%, 95% 0, 100% 100%);
+    }
+
+    .gate-fest-year {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(44,24,16,0.5);
+      margin-bottom: 8px;
+    }
+    .gate-fest-name {
+      font-family: var(--font-display);
+      font-size: 52px;
+      color: var(--earth);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .gate-fest-subtitle {
+      font-family: var(--font-handwrite);
+      font-size: 22px;
+      color: var(--coral);
+    }
+
+    .gate-ticket-body {
+      padding: 32px 32px;
+      text-align: center;
+    }
+    .gate-instruction {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(44,24,16,0.4);
+      margin-bottom: 16px;
+    }
+    .gate-input-demo {
+      width: 100%;
+      border: 2px solid var(--earth);
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      background: white;
+      margin-bottom: 16px;
+      letter-spacing: 4px;
+      color: #999;
+    }
+    .gate-btn {
+      width: 100%;
+      background: var(--earth);
+      color: var(--yellow);
+      border: none;
+      border-radius: 6px;
+      padding: 16px;
+      font-family: var(--font-display);
+      font-size: 22px;
+      cursor: pointer;
+      letter-spacing: 2px;
+    }
+
+    .gate-error-demo {
+      background: rgba(232,113,90,0.15);
+      border: 1px solid var(--coral);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 13px;
+      color: var(--coral);
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    .gate-barcode {
+      padding: 16px 32px;
+      border-top: 1px dashed rgba(44,24,16,0.15);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .gate-barcode-lines {
+      flex: 1;
+      height: 32px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--earth) 0px,
+        var(--earth) 2px,
+        transparent 2px,
+        transparent 5px,
+        var(--earth) 5px,
+        var(--earth) 6px,
+        transparent 6px,
+        transparent 9px,
+        var(--earth) 9px,
+        var(--earth) 11px,
+        transparent 11px,
+        transparent 16px
+      );
+    }
+    .gate-barcode-num {
+      font-family: monospace;
+      font-size: 10px;
+      color: rgba(44,24,16,0.4);
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       SECTION 1: HERO
+    ============================================================ */
+    .hero-demo {
+      min-height: 90vh;
+      background: linear-gradient(160deg, var(--yellow) 0%, var(--coral) 60%, #C4567A 100%);
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 60px 40px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-ghost-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display);
+      font-size: clamp(80px, 18vw, 220px);
+      font-weight: 400;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(255,255,255,0.2);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.15);
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 12vw, 130px);
+      color: white;
+      line-height: 0.9;
+      margin-bottom: 12px;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-name {
+      font-family: var(--font-handwrite);
+      font-size: clamp(40px, 9vw, 100px);
+      color: var(--yellow);
+      line-height: 1;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-sub {
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: rgba(255,255,255,0.85);
+      margin-top: 16px;
+      max-width: 400px;
+    }
+
+    /* Floating polaroids in hero */
+    .hero-polaroids {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .hero-polaroid {
+      position: absolute;
+      background: white;
+      padding: 10px 10px 32px;
+      box-shadow: var(--shadow-polaroid);
+      border-radius: 2px;
+    }
+    .hero-polaroid-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      border-radius: 1px;
+    }
+    .hero-polaroid-caption {
+      font-family: var(--font-handwrite);
+      font-size: 12px;
+      text-align: center;
+      padding-top: 8px;
+      color: var(--earth);
+    }
+
+    .hp-1 { width: 160px; top: 8%; left: 3%; transform: rotate(-12deg); }
+    .hp-2 { width: 180px; top: 12%; right: 4%; transform: rotate(9deg); }
+    .hp-3 { width: 140px; bottom: 10%; left: 8%; transform: rotate(5deg); }
+    .hp-4 { width: 150px; bottom: 15%; right: 6%; transform: rotate(-8deg); }
+
+    .hero-scroll-hint {
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding-top: 24px;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* ============================================================
+       SECTION 2: THE STORY
+    ============================================================ */
+    .story-demo {
+      background: var(--cream);
+      padding: 80px 40px;
+      position: relative;
+    }
+
+    .story-demo::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .story-section-label {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 12px;
+    }
+
+    .story-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 5vw, 56px);
+      color: var(--earth);
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+
+    .story-body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.8;
+      color: rgba(44,24,16,0.75);
+      max-width: 520px;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .story-polaroid-scatter {
+      position: relative;
+      height: 480px;
+    }
+
+    .scatter-polaroid {
+      position: absolute;
+      background: white;
+      padding: 12px 12px 44px;
+      box-shadow: var(--shadow-polaroid);
+      border-radius: 2px;
+    }
+    .scatter-polaroid-img {
+      display: block;
+      aspect-ratio: 4/3;
+      border-radius: 1px;
+    }
+    .scatter-polaroid-caption {
+      font-family: var(--font-handwrite);
+      font-size: 14px;
+      text-align: center;
+      padding-top: 10px;
+      color: var(--earth);
+    }
+    .scatter-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 20px;
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    .sp-1 { width: 200px; top: 0; left: 20px; transform: rotate(-8deg); z-index: 3; }
+    .sp-2 { width: 180px; top: 60px; left: 140px; transform: rotate(6deg); z-index: 2; }
+    .sp-3 { width: 190px; top: 200px; left: 40px; transform: rotate(4deg); z-index: 4; }
+    .sp-4 { width: 175px; top: 240px; left: 200px; transform: rotate(-5deg); z-index: 1; }
+
+    /* ============================================================
+       SECTION 3: PHOTO WALL
+    ============================================================ */
+    .gallery-demo {
+      background: #1C2B1C;
+      background-image:
+        radial-gradient(circle at 30% 50%, rgba(245,200,66,0.05) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(255,255,255,0.01) 40px, rgba(255,255,255,0.01) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,255,255,0.01) 40px, rgba(255,255,255,0.01) 41px);
+      padding: 80px 40px;
+    }
+
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .gallery-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 6vw, 64px);
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .gallery-heading span {
+      color: var(--yellow);
+    }
+
+    .gallery-sub {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .gallery-polaroid {
+      background: white;
+      padding: 10px 10px 40px;
+      box-shadow: 4px 8px 24px rgba(0,0,0,0.5);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .gallery-polaroid:hover {
+      transform: scale(1.05) rotate(0deg) !important;
+      box-shadow: 8px 16px 40px rgba(0,0,0,0.7);
+      z-index: 10;
+      position: relative;
+    }
+    .gallery-polaroid-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #ddd;
+      border-radius: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 11px;
+    }
+    .gallery-polaroid-caption {
+      font-family: var(--font-handwrite);
+      font-size: 13px;
+      text-align: center;
+      padding-top: 10px;
+      color: var(--earth);
+    }
+
+    /* Random rotations for gallery polaroids */
+    .gallery-polaroid:nth-child(1)  { transform: rotate(-6deg); }
+    .gallery-polaroid:nth-child(2)  { transform: rotate(4deg); }
+    .gallery-polaroid:nth-child(3)  { transform: rotate(-2deg); }
+    .gallery-polaroid:nth-child(4)  { transform: rotate(8deg); }
+    .gallery-polaroid:nth-child(5)  { transform: rotate(3deg); }
+    .gallery-polaroid:nth-child(6)  { transform: rotate(-9deg); }
+    .gallery-polaroid:nth-child(7)  { transform: rotate(6deg); }
+    .gallery-polaroid:nth-child(8)  { transform: rotate(-4deg); }
+    .gallery-polaroid:nth-child(9)  { transform: rotate(7deg); }
+    .gallery-polaroid:nth-child(10) { transform: rotate(-3deg); }
+    .gallery-polaroid:nth-child(11) { transform: rotate(5deg); }
+    .gallery-polaroid:nth-child(12) { transform: rotate(-7deg); }
+
+    /* Tape strips */
+    .gallery-polaroid {
+      position: relative;
+    }
+    .g-tape {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 18px;
+      border-radius: 2px;
+      opacity: 0.5;
+    }
+
+    /* ============================================================
+       SECTION 4: MESSAGES
+    ============================================================ */
+    .messages-demo {
+      background: linear-gradient(180deg, var(--cream) 0%, #FFF0E0 100%);
+      padding: 80px 40px;
+    }
+
+    .messages-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .messages-heading {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 5vw, 56px);
+      color: var(--earth);
+      margin-bottom: 8px;
+    }
+
+    .messages-sub {
+      font-family: var(--font-handwrite);
+      font-size: 22px;
+      color: var(--coral);
+    }
+
+    .messages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .message-card {
+      border-radius: 8px;
+      padding: 28px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .message-card::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .mc-1 { background: linear-gradient(135deg, #F5C842, #E8A835); }
+    .mc-2 { background: linear-gradient(135deg, #E8715A, #C4567A); color: white; }
+    .mc-3 { background: linear-gradient(135deg, #7BAF6F, #5C9550); color: white; }
+    .mc-4 { background: linear-gradient(135deg, #8B6BB1, #6B4B9A); color: white; }
+    .mc-5 { background: linear-gradient(135deg, #87CEEB, #5BA8CC); }
+    .mc-6 { background: linear-gradient(135deg, #E8B4A0, #D49070); }
+
+    .message-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .message-author {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .message-text {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    /* ============================================================
+       SECTION 5: CLOSING
+    ============================================================ */
+    .closing-demo {
+      background: linear-gradient(175deg, var(--coral) 0%, var(--purple) 50%, var(--sunset-c) 100%);
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .closing-demo::before {
+      content: '✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦';
+      position: absolute;
+      top: 8%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: rgba(255,255,255,0.15);
+      font-size: 20px;
+      letter-spacing: 20px;
+    }
+    .closing-demo::after {
+      content: '✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦';
+      position: absolute;
+      bottom: 8%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: rgba(255,255,255,0.1);
+      font-size: 20px;
+      letter-spacing: 20px;
+    }
+
+    .closing-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .closing-burst {
+      font-size: 72px;
+      margin-bottom: 24px;
+      display: block;
+      animation: spin-slow 8s linear infinite;
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .closing-headline {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 8vw, 88px);
+      color: white;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .closing-name {
+      font-family: var(--font-handwrite);
+      font-size: clamp(32px, 7vw, 72px);
+      color: var(--yellow);
+    }
+
+    .closing-tagline {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-top: 32px;
+      padding: 10px 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    /* ============================================================
+       DESIGN SYSTEM REFERENCE PANEL
+    ============================================================ */
+    .ds-panel {
+      background: white;
+      padding: 48px 40px;
+      margin-top: 40px;
+    }
+
+    .ds-title {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      color: var(--earth);
+      margin-bottom: 40px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--yellow);
+    }
+
+    .ds-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .ds-color {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .ds-color-swatch {
+      height: 80px;
+    }
+    .ds-color-info {
+      padding: 10px 12px;
+      background: white;
+    }
+    .ds-color-name {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .ds-color-hex {
+      font-family: monospace;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .ds-type-sample {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #F0EBE0;
+    }
+    .ds-type-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MOBILE PREVIEW PANEL
+    ============================================================ */
+    .mobile-preview {
+      background: var(--earth);
+      padding: 48px 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+      align-items: start;
+    }
+
+    .mobile-frame {
+      background: #1A1A1A;
+      border-radius: 40px;
+      padding: 12px;
+      max-width: 375px;
+      margin: 0 auto;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    .mobile-notch {
+      background: #1A1A1A;
+      height: 24px;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-notch::after {
+      content: '';
+      width: 80px;
+      height: 8px;
+      background: #333;
+      border-radius: 4px;
+    }
+
+    .mobile-screen {
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .mobile-label-outer {
+      text-align: center;
+      margin-top: 20px;
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Mobile screen mini versions */
+    .m-hero {
+      background: linear-gradient(160deg, var(--yellow) 0%, var(--coral) 100%);
+      padding: 40px 20px 32px;
+      text-align: center;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .m-hero-h { font-family: var(--font-display); font-size: 36px; color: white; line-height: 1; }
+    .m-hero-n { font-family: var(--font-handwrite); font-size: 28px; color: var(--yellow); }
+    .m-hero-p {
+      background: white;
+      padding: 6px 6px 20px;
+      margin-top: 16px;
+      width: 120px;
+      box-shadow: 3px 6px 12px rgba(0,0,0,0.3);
+      transform: rotate(-5deg);
+    }
+    .m-hero-p-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #ddd;
+    }
+
+    .m-gallery {
+      background: #1C2B1C;
+      padding: 20px 12px;
+    }
+    .m-gallery-h {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      color: white;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .m-gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .m-gallery-p {
+      background: white;
+      padding: 5px 5px 20px;
+    }
+    .m-gallery-p-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #ccc;
+    }
+    .m-gallery-p:nth-child(1) { transform: rotate(-4deg); }
+    .m-gallery-p:nth-child(2) { transform: rotate(3deg); }
+    .m-gallery-p:nth-child(3) { transform: rotate(5deg); }
+    .m-gallery-p:nth-child(4) { transform: rotate(-2deg); }
+
+    /* ============================================================
+       INTERACTION STATES
+    ============================================================ */
+    .states-demo {
+      background: var(--cream);
+      padding: 48px 40px;
+    }
+    .states-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+    .state-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .state-card h3 {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: var(--earth);
+    }
+
+    /* Shake animation demo */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-8px); }
+      30% { transform: translateX(8px); }
+      45% { transform: translateX(-6px); }
+      60% { transform: translateX(6px); }
+      75% { transform: translateX(-3px); }
+      90% { transform: translateX(3px); }
+    }
+    .shake-demo {
+      background: rgba(232,113,90,0.1);
+      border: 2px solid var(--coral);
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--coral);
+      font-weight: 600;
+      animation: shake 0.4s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* confetti preview */
+    .confetti-preview {
+      height: 80px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--yellow), var(--coral));
+    }
+    .confetti-dot {
+      position: absolute;
+      border-radius: 50%;
+      animation: fall 2s infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100px) rotate(180deg); opacity: 0; }
+    }
+
+    /* Lightbox demo */
+    .lightbox-demo {
+      background: rgba(0,0,0,0.85);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 120px;
+    }
+    .lightbox-inner {
+      background: white;
+      padding: 8px 8px 28px;
+      width: 140px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .lightbox-inner-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #ddd;
+    }
+    .lightbox-caption {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 1px;
+    }
+
+    /* Section transition preview */
+    .transition-demo {
+      height: 60px;
+      background: linear-gradient(to bottom, var(--yellow) 0%, var(--cream) 100%);
+      clip-path: ellipse(60% 100% at 50% 0%);
+      border-radius: 0 0 8px 8px;
+    }
+
+    /* ============================================================
+       RESPONSIVE NOTE PANEL
+    ============================================================ */
+    .responsive-panel {
+      background: var(--earth);
+      color: white;
+      padding: 48px 40px;
+    }
+    .responsive-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .breakpoint-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .bp-size {
+      font-family: monospace;
+      font-size: 24px;
+      color: var(--yellow);
+      margin-bottom: 8px;
+    }
+    .bp-name {
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .bp-notes {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       UTILITY
+    ============================================================ */
+    .section-gap { height: 2px; background: linear-gradient(90deg, var(--yellow), var(--coral), var(--purple)); }
+
+    @media (max-width: 768px) {
+      .story-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .messages-grid { grid-template-columns: 1fr; }
+      .responsive-grid { grid-template-columns: 1fr; }
+      .hero-demo { padding: 40px 20px; }
+      .hp-1, .hp-2, .hp-3, .hp-4 { display: none; }
+      .story-demo, .gallery-demo, .messages-demo, .closing-demo { padding: 60px 20px; }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+      .messages-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER: Document intro
+============================================================ -->
+<div class="wf-intro">
+  <h1>Amanda's Birthday Website</h1>
+  <p>Design Wireframe & Component Library — review this document before development begins. All sections are fully annotated with colours, typography, and interaction behaviour.</p>
+  <div class="wf-tags">
+    <span class="wf-tag">✦ Festival Aesthetic</span>
+    <span class="wf-tag">✦ Mobile First</span>
+    <span class="wf-tag">✦ Polaroid Gallery</span>
+    <span class="wf-tag">✦ Scroll Animations</span>
+    <span class="wf-tag">✦ Password Gated</span>
+    <span class="wf-tag">✦ Vanilla HTML/CSS/JS</span>
+  </div>
+</div>
+
+<div class="wf-page">
+
+  <!-- ============================================================
+       SECTION 0: PASSWORD GATE
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Section 0 — Password Gate (Full-Screen Overlay)
+      <span>Displays before any content — dismissed on correct password</span>
+    </div>
+
+    <div class="gate-demo">
+      <div class="gate-stars"></div>
+      <div class="gate-ticket">
+
+        <div class="gate-ticket-top">
+          <div class="gate-fest-year">Amanda Fest · 2026 · Members Only</div>
+          <div class="gate-fest-name">AMANDA<br>FEST</div>
+          <div class="gate-fest-subtitle">Birthday Edition</div>
+        </div>
+
+        <div class="gate-ticket-body">
+          <div class="gate-instruction">Enter your wristband code</div>
+          <input class="gate-input-demo" placeholder="· · · · · · · · · ·" readonly>
+          <button class="gate-btn">GET IN ✦</button>
+          <div class="gate-error-demo">❌ Wrong code — try again!</div>
+        </div>
+
+        <div class="gate-barcode">
+          <div class="gate-barcode-lines"></div>
+          <div class="gate-barcode-num">AMND-2026-VIP</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="padding: 16px 20px; background: #f8f8f8; border-top: 1px solid #eee;">
+      <div class="wf-annotation">Password is hardcoded: <strong>Amanda2026</strong> — case-sensitive. Wrong password shows shake + error. Correct password triggers confetti burst, then overlay fades out revealing page.</div>
+      <div class="wf-annotation">Background: radial dark green gradient. Ticket: cream card with jagged tear edge (CSS clip-path). Festival ticket barcode decoration at bottom.</div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       SECTION 1: HERO
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Section 1 — Hero
+      <span>100dvh · Parallax background · Floating polaroids · Scroll indicator</span>
+    </div>
+
+    <div class="hero-demo">
+      <div class="hero-ghost-text">BIRTHDAY</div>
+
+      <!-- Floating polaroids — desktop -->
+      <div class="hero-polaroids">
+        <div class="hero-polaroid hp-1">
+          <div class="hero-polaroid-img" style="background: linear-gradient(135deg, #F5C842, #E8715A);"></div>
+          <div class="hero-polaroid-caption">best day ever ✦</div>
+        </div>
+        <div class="hero-polaroid hp-2">
+          <div class="hero-polaroid-img" style="background: linear-gradient(135deg, #7BAF6F, #87CEEB);"></div>
+          <div class="hero-polaroid-caption">summer vibes</div>
+        </div>
+        <div class="hero-polaroid hp-3">
+          <div class="hero-polaroid-img" style="background: linear-gradient(135deg, #8B6BB1, #E8715A);"></div>
+          <div class="hero-polaroid-caption">love you ♥</div>
+        </div>
+        <div class="hero-polaroid hp-4">
+          <div class="hero-polaroid-img" style="background: linear-gradient(135deg, #E8B4A0, #F5C842);"></div>
+          <div class="hero-polaroid-caption">🎉 2026</div>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-eyebrow">✦ A very special celebration ✦</div>
+        <div class="hero-headline">Happy<br>Birthday</div>
+        <div class="hero-name">Amanda!</div>
+        <div class="hero-sub">This one's for you — grab a drink, put on your favourite song, and enjoy.</div>
+      </div>
+
+      <div class="hero-scroll-hint">scroll down ↓</div>
+    </div>
+
+    <div style="padding: 16px 20px; background: #f8f8f8;">
+      <div class="wf-annotation">Ghost/outline "BIRTHDAY" text runs behind everything, creates depth. 4 polaroids float at −12° to +9°, animated entrance (fly in from sides on load). Parallax: background gradient moves at 0.4× scroll speed. Mobile: polaroids hidden, headline stacks full-width.</div>
+      <div class="wf-annotation">Fonts: Boogaloo (headline), Dancing Script (name), Nunito (sub). Colours: yellow → coral → deep pink gradient.</div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       SECTION 2: THE STORY
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Section 2 — The Story
+      <span>Cream background · Text + polaroid scatter · Organic layout</span>
+    </div>
+
+    <div class="story-demo">
+      <div class="story-grid">
+
+        <!-- Text side -->
+        <div>
+          <div class="story-section-label">✦ A little message</div>
+          <div class="story-heading">Here's to the<br>one & only</div>
+          <div class="story-body">
+            Amanda — where do we even begin? From [first memory here] to [most recent adventure], every single moment with you has been an absolute joy. You bring [quality], [quality], and [quality] to everything you do, and today we get to celebrate all of that.<br><br>
+            This website is a tiny love letter from everyone who adores you. Have a scroll, smile at the memories, and know that you are absolutely loved. Happy birthday! 🎉
+          </div>
+          <div style="margin-top: 24px; font-family: var(--font-handwrite); font-size: 26px; color: var(--coral);">
+            — Your people xo
+          </div>
+        </div>
+
+        <!-- Polaroid scatter side -->
+        <div class="story-polaroid-scatter">
+          <div class="scatter-polaroid sp-1">
+            <div class="scatter-tape" style="background: var(--yellow);"></div>
+            <div class="scatter-polaroid-img" style="width:176px; background: linear-gradient(135deg, #F5C842, #E8715A);"></div>
+            <div class="scatter-polaroid-caption">sun-soaked ☀</div>
+          </div>
+          <div class="scatter-polaroid sp-2">
+            <div class="scatter-tape" style="background: var(--coral);"></div>
+            <div class="scatter-polaroid-img" style="width:156px; background: linear-gradient(135deg, #87CEEB, #7BAF6F);"></div>
+            <div class="scatter-polaroid-caption">good times</div>
+          </div>
+          <div class="scatter-polaroid sp-3">
+            <div class="scatter-tape" style="background: var(--sage);"></div>
+            <div class="scatter-polaroid-img" style="width:166px; background: linear-gradient(135deg, #8B6BB1, #E8B4A0);"></div>
+            <div class="scatter-polaroid-caption">forever friends</div>
+          </div>
+          <div class="scatter-polaroid sp-4">
+            <div class="scatter-tape" style="background: var(--purple);"></div>
+            <div class="scatter-polaroid-img" style="width:151px; background: linear-gradient(135deg, #E8B4A0, #F5C842);"></div>
+            <div class="scatter-polaroid-caption">pure magic ✨</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="padding: 16px 20px; background: #f8f8f8;">
+      <div class="wf-annotation">Two-column layout: text left, polaroid scatter right. On mobile, text first, then scatter. Polaroids fly in from right on scroll. Scatter uses absolute positioning with z-index layering for overlap effect. Washi tape strips above each polaroid use cycled palette colours.</div>
+      <div class="wf-annotation">The text content is a placeholder — user fills in personal details about Amanda. Wavy/ellipse CSS shape divider at top of section.</div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       SECTION 3: PHOTO WALL
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Section 3 — The Photo Wall
+      <span>Dark cork-board feel · Masonry polaroid grid · Hover effect · Lightbox</span>
+    </div>
+
+    <div class="gallery-demo">
+      <div class="gallery-header">
+        <div class="gallery-heading">The <span>Memories</span></div>
+        <div class="gallery-sub">✦ tap any photo to enlarge ✦</div>
+      </div>
+
+      <div class="gallery-grid">
+        <!-- 12 polaroid cards -->
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--yellow);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #F5C842, #E8715A);">photo 1</div>
+          <div class="gallery-polaroid-caption">summer 2024</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--coral);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #87CEEB, #7BAF6F);">photo 2</div>
+          <div class="gallery-polaroid-caption">festival vibes</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--sage);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #8B6BB1, #E8B4A0);">photo 3</div>
+          <div class="gallery-polaroid-caption">the crew ✦</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--purple);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #E8B4A0, #F5C842);">photo 4</div>
+          <div class="gallery-polaroid-caption">golden hour</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--sky);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #E8715A, #8B6BB1);">photo 5</div>
+          <div class="gallery-polaroid-caption">besties</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--yellow);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #7BAF6F, #87CEEB);">photo 6</div>
+          <div class="gallery-polaroid-caption">adventures</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--coral);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #F5C842, #7BAF6F);">photo 7</div>
+          <div class="gallery-polaroid-caption">sunshine days</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--sage);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #E8B4A0, #8B6BB1);">photo 8</div>
+          <div class="gallery-polaroid-caption">memories ♥</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--purple);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #87CEEB, #E8715A);">photo 9</div>
+          <div class="gallery-polaroid-caption">wild nights</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--yellow);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #E8715A, #F5C842);">photo 10</div>
+          <div class="gallery-polaroid-caption">so much love</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--coral);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #8B6BB1, #7BAF6F);">photo 11</div>
+          <div class="gallery-polaroid-caption">golden girl</div>
+        </div>
+        <div class="gallery-polaroid">
+          <div class="g-tape" style="background: var(--sky);"></div>
+          <div class="gallery-polaroid-img" style="background: linear-gradient(135deg, #7BAF6F, #E8B4A0);">photo 12</div>
+          <div class="gallery-polaroid-caption">here's to you</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 16px 20px; background: #f8f8f8;">
+      <div class="wf-annotation">Dark textured background (subtle grid lines). 4-column grid desktop, 2-column tablet/mobile. Each polaroid has random rotation (−12° to +12°) and coloured tape strip. Hover: scale 1.05, de-rotate to 0°, shadow deepens. Click opens lightbox overlay.</div>
+      <div class="wf-annotation">Scroll animation: polaroids appear in staggered waves (groups of 4). Photos loaded from /photos/ directory — placeholder gradients until real images added.</div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       SECTION 4: MESSAGES
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Section 4 — Birthday Messages
+      <span>Greeting card grid · Colour cycling · Personal wishes</span>
+    </div>
+
+    <div class="messages-demo">
+      <div class="messages-header">
+        <div class="messages-heading">With love, from all of us</div>
+        <div class="messages-sub">a few words for the birthday girl</div>
+      </div>
+
+      <div class="messages-grid">
+        <div class="message-card mc-1">
+          <span class="message-icon">🌻</span>
+          <div class="message-author">From [Name]</div>
+          <div class="message-text">Amanda, you are the sunshine in every room. Wishing you the most magical birthday filled with everything you love. Love you to bits!</div>
+        </div>
+        <div class="message-card mc-2">
+          <span class="message-icon">🎸</span>
+          <div class="message-author">From [Name]</div>
+          <div class="message-text">To the person who always knows the best song for every moment — may your birthday be as epic as your playlist. Happy birthday! 🎉</div>
+        </div>
+        <div class="message-card mc-3">
+          <span class="message-icon">✨</span>
+          <div class="message-author">From [Name]</div>
+          <div class="message-text">You make every adventure better. Thank you for being you — your laugh, your energy, your spirit. Here's to many more years of being absolutely brilliant.</div>
+        </div>
+        <div class="message-card mc-4">
+          <span class="message-icon">🌸</span>
+          <div class="message-author">From [Name]</div>
+          <div class="message-text">Happy birthday to the most generous, funniest, and most stylish human I know. You deserve the world today and every day. Cheers! 🥂</div>
+        </div>
+        <div class="message-card mc-5">
+          <span class="message-icon">🦋</span>
+          <div class="message-author">From [Name]</div>
+          <div class="message-text">Amanda — watching you grow into the incredible person you are has been one of the great joys of my life. So proud of you. Happy birthday darling!</div>
+        </div>
+        <div class="message-card mc-6">
+          <span class="message-icon">🎊</span>
+          <div class="message-author">From [Name]</div>
+          <div class="message-text">Here's to you — the wild one, the kind one, the funniest one in the room. Today we celebrate YOU. Can't wait to see what this next year brings!</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 16px 20px; background: #f8f8f8;">
+      <div class="wf-annotation">3-column grid desktop, 2-column tablet, 1-column mobile. Cards use gradient backgrounds cycling through colour palette. Each card has a decorative circle behind content for depth. Author names and messages are placeholder — user customises in photos.js config or HTML directly.</div>
+      <div class="wf-annotation">Scroll animation: cards fan in from bottom with stagger. Optional: horizontal scroll on mobile for a "card deck" feel (configurable).</div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       SECTION 5: CLOSING
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Section 5 — Closing
+      <span>Festival sunset gradient · Confetti · Final message</span>
+    </div>
+
+    <div class="closing-demo">
+      <div class="closing-content">
+        <span class="closing-burst">✦</span>
+        <div class="closing-headline">Here's to<br>you,</div>
+        <div class="closing-name">Amanda</div>
+        <div class="closing-tagline">Amanda Fest 2026 · One day only · You're the headliner</div>
+      </div>
+    </div>
+
+    <div style="padding: 16px 20px; background: #f8f8f8;">
+      <div class="wf-annotation">Deep festival sunset gradient: coral → purple → midnight navy. Spinning star burst. Looping CSS confetti particles float up from bottom. Minimal — no links or navigation, just celebration.</div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       INTERACTION STATES
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Interaction States & Animation Demos
+      <span>All key states illustrated</span>
+    </div>
+
+    <div class="states-demo">
+      <div class="states-grid">
+
+        <div class="state-card">
+          <h3>Password Error — Shake</h3>
+          <div class="shake-demo" onclick="this.style.animation='none'; setTimeout(()=>this.style.animation='shake 0.4s ease',10)">
+            ❌ Wrong wristband code — click to replay shake
+          </div>
+          <div class="wf-annotation" style="margin-top: 12px;">Triggered on wrong password attempt. Input + button shake together.</div>
+        </div>
+
+        <div class="state-card">
+          <h3>Lightbox — Photo Enlarge</h3>
+          <div class="lightbox-demo">
+            <div class="lightbox-inner">
+              <div class="lightbox-inner-img" style="background: linear-gradient(135deg, #F5C842, #E8715A);"></div>
+            </div>
+            <div class="lightbox-caption">Click outside or press ESC to close</div>
+          </div>
+          <div class="wf-annotation" style="margin-top: 12px;">Dark overlay, centred polaroid at full size, no rotation. ESC or backdrop click closes.</div>
+        </div>
+
+        <div class="state-card">
+          <h3>Section Transition — Wave</h3>
+          <div style="background: var(--yellow); height: 40px; border-radius: 4px 4px 0 0;"></div>
+          <div class="transition-demo"></div>
+          <div style="background: var(--cream); height: 40px; border-radius: 0 0 4px 4px; display: flex; align-items: center; padding: 0 12px; font-size: 12px; color: #999;">next section</div>
+          <div class="wf-annotation" style="margin-top: 12px;">CSS clip-path ellipse creates organic wave between sections. Colour matches destination section.</div>
+        </div>
+
+        <div class="state-card">
+          <h3>Confetti Burst</h3>
+          <div class="confetti-preview" id="confetti-container">
+            <div class="confetti-dot" style="width:8px;height:8px;background:#fff;left:10%;animation-delay:0s;animation-duration:1.8s;"></div>
+            <div class="confetti-dot" style="width:6px;height:6px;background:var(--earth);left:25%;animation-delay:0.3s;animation-duration:2.1s;"></div>
+            <div class="confetti-dot" style="width:10px;height:10px;background:#fff;left:40%;animation-delay:0.1s;animation-duration:1.6s;"></div>
+            <div class="confetti-dot" style="width:5px;height:5px;background:var(--earth);left:60%;animation-delay:0.5s;animation-duration:2.3s;"></div>
+            <div class="confetti-dot" style="width:8px;height:8px;background:#fff;left:75%;animation-delay:0.2s;animation-duration:1.9s;"></div>
+            <div class="confetti-dot" style="width:6px;height:6px;background:var(--earth);left:88%;animation-delay:0.4s;animation-duration:2.0s;"></div>
+          </div>
+          <div class="wf-annotation" style="margin-top: 12px;">Fires on correct password entry. CSS-only particle system, 3 seconds, then stops.</div>
+        </div>
+
+        <div class="state-card">
+          <h3>Scroll Reveal — Polaroid</h3>
+          <div style="position: relative; height: 120px; overflow: hidden; background: var(--cream); border-radius: 6px;">
+            <div style="position: absolute; background: white; padding: 8px 8px 28px; box-shadow: 3px 6px 16px rgba(0,0,0,0.2); transform: rotate(-5deg) translateY(40px); opacity: 0; transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); left: 20px; top: 10px;" id="reveal-demo" onmouseenter="this.style.transform='rotate(-5deg) translateY(0)';this.style.opacity='1'" onmouseleave="this.style.transform='rotate(-5deg) translateY(40px)';this.style.opacity='0'">
+              <div style="width: 80px; aspect-ratio: 4/3; background: linear-gradient(135deg, var(--yellow), var(--coral));"></div>
+            </div>
+            <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 12px; color: #999;">hover card area to preview →</div>
+          </div>
+          <div class="wf-annotation" style="margin-top: 12px;">Intersection Observer triggers: opacity 0→1, translateY 40px→0, with spring easing. Staggered per polaroid with 100ms delay offsets.</div>
+        </div>
+
+        <div class="state-card">
+          <h3>Polaroid Hover State</h3>
+          <div style="display: flex; gap: 16px; align-items: flex-end;">
+            <div>
+              <div style="font-size: 10px; text-align: center; color: #999; margin-bottom: 4px;">default</div>
+              <div style="background: white; padding: 8px 8px 28px; transform: rotate(-7deg); box-shadow: 3px 6px 16px rgba(0,0,0,0.2); width: 80px;">
+                <div style="width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #87CEEB, #7BAF6F);"></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 10px; text-align: center; color: #999; margin-bottom: 4px;">hovered</div>
+              <div style="background: white; padding: 8px 8px 28px; transform: scale(1.08) rotate(0deg); box-shadow: 8px 16px 32px rgba(0,0,0,0.35); width: 80px;">
+                <div style="width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, #87CEEB, #7BAF6F);"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wf-annotation" style="margin-top: 12px;">Scale 1.0→1.08, rotation de-normalises to 0°, shadow deepens. 0.3s ease transition. z-index raised so polaroid floats above neighbours.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       MOBILE PREVIEW
+  ============================================================ -->
+  <div class="wf-section-wrap">
+    <div class="wf-section-header">
+      Mobile Preview — 375px (iPhone)
+      <span>All layouts optimised for mobile-first</span>
+    </div>
+
+    <div class="mobile-preview">
+
+      <!-- Phone 1: Password gate -->
+      <div>
+        <div class="mobile-frame">
+          <div class="mobile-notch"></div>
+          <div class="mobile-screen">
+            <div style="background: #0D1F0D; padding: 32px 16px; text-align: center; min-height: 500px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;">
+              <div style="background: var(--cream); border-radius: 8px; width: 100%; padding: 20px 16px;">
+                <div style="background: var(--yellow); margin: -20px -16px 0; padding: 20px 16px; text-align: center;">
+                  <div style="font-family: var(--font-display); font-size: 32px; color: var(--earth);">AMANDA<br>FEST</div>
+                  <div style="font-family: var(--font-handwrite); font-size: 16px; color: var(--coral);">Birthday Edition</div>
+                </div>
+                <div style="padding-top: 20px;">
+                  <div style="border: 2px solid var(--earth); border-radius: 4px; padding: 10px; font-family: monospace; font-size: 14px; text-align: center; color: #999; letter-spacing: 4px; margin-bottom: 10px;">· · · · · · · ·</div>
+                  <div style="background: var(--earth); color: var(--yellow); border-radius: 4px; padding: 12px; font-family: var(--font-display); font-size: 18px; text-align: center;">GET IN ✦</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-label-outer">Password Gate</div>
+      </div>
+
+      <!-- Phone 2: Hero mobile -->
+      <div>
+        <div class="mobile-frame">
+          <div class="mobile-notch"></div>
+          <div class="mobile-screen">
+            <div class="m-hero">
+              <div style="font-family: var(--font-body); font-size: 10px; font-weight: 800; letter-spacing: 3px; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 12px; margin-bottom: 12px; text-transform: uppercase;">A very special celebration</div>
+              <div class="m-hero-h">Happy<br>Birthday</div>
+              <div class="m-hero-n">Amanda!</div>
+              <div class="m-hero-p">
+                <div class="m-hero-p-img" style="background: linear-gradient(135deg, #F5C842, #E8715A);"></div>
+              </div>
+              <div style="font-family: var(--font-body); font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 12px;">scroll down ↓</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-label-outer">Hero Section</div>
+      </div>
+
+      <!-- Phone 3: Gallery mobile -->
+      <div>
+        <div class="mobile-frame">
+          <div class="mobile-notch"></div>
+          <div class="mobile-screen">
+            <div class="m-gallery">
+              <div class="m-gallery-h">The <span style="color: var(--yellow);">Memories</span></div>
+              <div class="m-gallery-grid">
+                <div class="m-gallery-p" style="transform: rotate(-4deg);">
+                  <div class="m-gallery-p-img" style="background: linear-gradient(135deg, #F5C842, #E8715A);"></div>
+                </div>
+                <div class="m-gallery-p" style="transform: rotate(3deg);">
+                  <div class="m-gallery-p-img" style="background: linear-gradient(135deg, #87CEEB, #7BAF6F);"></div>
+                </div>
+                <div class="m-gallery-p" style="transform: rotate(5deg);">
+                  <div class="m-gallery-p-img" style="background: linear-gradient(135deg, #8B6BB1, #E8B4A0);"></div>
+                </div>
+                <div class="m-gallery-p" style="transform: rotate(-2deg);">
+                  <div class="m-gallery-p-img" style="background: linear-gradient(135deg, #E8715A, #8B6BB1);"></div>
+                </div>
+              </div>
+              <div style="text-align: center; color: rgba(255,255,255,0.4); font-size: 10px; margin-top: 12px; letter-spacing: 2px; text-transform: uppercase;">tap any photo to enlarge</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-label-outer">Photo Wall</div>
+      </div>
+
+    </div>
+
+    <div style="padding: 16px 20px; background: #f8f8f8;">
+      <div class="wf-annotation">All sections designed mobile-first at 375px. Breakpoints: 768px (tablet), 1024px (desktop). Touch interactions replace hover states on mobile.</div>
+    </div>
+  </div>
+
+  <div class="section-gap"></div>
+
+  <!-- ============================================================
+       DESIGN SYSTEM
+  ============================================================ -->
+  <div class="ds-panel">
+    <div class="ds-title">Design System Reference</div>
+
+    <h2 style="font-family: var(--font-heading); font-size: 22px; margin-bottom: 20px;">Colour Palette</h2>
+    <div class="ds-row">
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #F5C842;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Sunshine Yellow</div><div class="ds-color-hex">#F5C842</div></div>
+      </div>
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #E8715A;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Coral Sunset</div><div class="ds-color-hex">#E8715A</div></div>
+      </div>
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #7BAF6F;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Sage Festival</div><div class="ds-color-hex">#7BAF6F</div></div>
+      </div>
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #FFF8EE; border: 1px solid #E0D8CC;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Cream Paper</div><div class="ds-color-hex">#FFF8EE</div></div>
+      </div>
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #2C1810;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Deep Earth</div><div class="ds-color-hex">#2C1810</div></div>
+      </div>
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #E8B4A0;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Dusty Pink</div><div class="ds-color-hex">#E8B4A0</div></div>
+      </div>
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #8B6BB1;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Festival Purple</div><div class="ds-color-hex">#8B6BB1</div></div>
+      </div>
+      <div class="ds-color">
+        <div class="ds-color-swatch" style="background: #87CEEB;"></div>
+        <div class="ds-color-info"><div class="ds-color-name">Sky Blue</div><div class="ds-color-hex">#87CEEB</div></div>
+      </div>
+    </div>
+
+    <h2 style="font-family: var(--font-heading); font-size: 22px; margin-bottom: 20px; margin-top: 40px;">Typography Scale</h2>
+
+    <div class="ds-type-sample">
+      <div class="ds-type-label">Display — Boogaloo 400 — Hero headlines</div>
+      <div style="font-family: var(--font-display); font-size: 56px; color: var(--earth); line-height: 1;">Happy Birthday Amanda!</div>
+    </div>
+
+    <div class="ds-type-sample">
+      <div class="ds-type-label">Heading — Playfair Display 700 — Section titles</div>
+      <div style="font-family: var(--font-heading); font-size: 36px; font-weight: 700; color: var(--earth);">The Memories ✦</div>
+    </div>
+
+    <div class="ds-type-sample">
+      <div class="ds-type-label">Handwritten — Dancing Script 700 — Polaroid captions, personal accents</div>
+      <div style="font-family: var(--font-handwrite); font-size: 28px; color: var(--coral);">best summer ever xo</div>
+    </div>
+
+    <div class="ds-type-sample">
+      <div class="ds-type-label">Body — Nunito 400 — General text</div>
+      <div style="font-family: var(--font-body); font-size: 16px; line-height: 1.7; max-width: 600px; color: var(--earth);">Amanda, you are the sunshine in every room. From the first adventure to the last laugh, every moment with you is a gift. This website is a tiny love letter from everyone who adores you.</div>
+    </div>
+
+    <div class="ds-type-sample">
+      <div class="ds-type-label">Label — Nunito 800 — Eyebrows, tags, metadata</div>
+      <div style="font-family: var(--font-body); font-weight: 800; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--coral);">✦ A very special celebration ✦</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       RESPONSIVE BREAKPOINTS
+  ============================================================ -->
+  <div class="responsive-panel">
+    <div style="font-family: var(--font-heading); font-size: 28px; color: white;">Responsive Breakpoints</div>
+    <div class="responsive-grid">
+      <div class="breakpoint-card">
+        <div class="bp-size">375px+</div>
+        <div class="bp-name">Mobile (default)</div>
+        <div class="bp-notes">
+          Single column throughout.<br>
+          Hero polaroids hidden — headline full-width.<br>
+          Gallery: 2-column grid.<br>
+          Message cards: 1-column.<br>
+          Story: text then scatter, stacked.<br>
+          Touch tap for lightbox.
+        </div>
+      </div>
+      <div class="breakpoint-card">
+        <div class="bp-size">768px+</div>
+        <div class="bp-name">Tablet</div>
+        <div class="bp-notes">
+          2 hero polaroids visible.<br>
+          Story grid: 2 columns.<br>
+          Gallery: 3 columns.<br>
+          Messages: 2 columns.<br>
+          Story scatter visible.<br>
+          Hover effects activated.
+        </div>
+      </div>
+      <div class="breakpoint-card">
+        <div class="bp-size">1024px+</div>
+        <div class="bp-name">Desktop</div>
+        <div class="bp-notes">
+          All 4 hero polaroids.<br>
+          Full ghost "BIRTHDAY" text.<br>
+          Gallery: 4 columns.<br>
+          Messages: 3 columns.<br>
+          Full parallax effect.<br>
+          Story: side-by-side layout.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div style="background: var(--earth); color: rgba(255,255,255,0.3); text-align: center; padding: 24px; font-size: 12px; font-family: var(--font-body);">
+  Amanda Birthday Website — Design Wireframe — Ready for development ✦
+</div>
+
+</body>
+</html>
