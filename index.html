@@ -15,6 +15,10 @@
 </head>
 <body>
 
+<!-- Fixed infrastructure: grain texture + scroll-driven glow -->
+<div id="grain" aria-hidden="true"></div>
+<div id="bg-glow" aria-hidden="true"></div>
+
 <!-- ============================================================
      PASSWORD GATE
      Full-screen burn book cover — blocks all content until unlocked
@@ -135,17 +139,21 @@
     <div class="hero-content">
       <div class="hero-eyebrow reveal delay-1">✦ Amanda Fest 2026 ✦</div>
 
-      <div class="hero-headline reveal delay-2">
-        <div class="ransom-line">
-          <span class="cut cut-3" style="--r:-3deg">HAPPY</span>
-          <span class="cut cut-2" style="--r: 2deg">BIRTH</span>
+      <div class="hero-headline line-reveal-target">
+        <div class="line-wrap">
+          <div class="ransom-line">
+            <span class="cut cut-3" style="--r:-3deg">HAPPY</span>
+            <span class="cut cut-2" style="--r: 2deg">BIRTH</span>
+          </div>
         </div>
-        <div class="ransom-line">
-          <span class="cut cut-1" style="--r:-1deg">DAY</span>
-          <span class="cut cut-4" style="--r: 1deg">A</span>
-          <span class="cut cut-5" style="--r:-2deg">MAN</span>
-          <span class="cut cut-6" style="--r: 3deg">DA</span>
-          <span class="cut cut-2" style="--r:-1deg">!</span>
+        <div class="line-wrap">
+          <div class="ransom-line">
+            <span class="cut cut-1" style="--r:-1deg">DAY</span>
+            <span class="cut cut-4" style="--r: 1deg">A</span>
+            <span class="cut cut-5" style="--r:-2deg">MAN</span>
+            <span class="cut cut-6" style="--r: 3deg">DA</span>
+            <span class="cut cut-2" style="--r:-1deg">!</span>
+          </div>
         </div>
       </div>
 
@@ -178,11 +186,11 @@
           <span class="story-heading-accent">from your people</span>
         </h2>
 
-        <p class="story-body reveal delay-2">
+        <p class="story-body split-words reveal delay-2">
           Amanda — where do we even begin? You are one of the most genuinely wonderful humans we know, and today we get to shout about it. [Add your personal message about Amanda here — a favourite memory, an inside joke, something that makes her her.]
         </p>
 
-        <p class="story-body reveal delay-3">
+        <p class="story-body split-words reveal delay-3">
           This website is a tiny love letter from everyone who adores you. Scroll through the memories, read the notes, and know that you are completely and utterly obsessed-with, in the best possible way. Happy birthday! 💋
         </p>
 
@@ -223,12 +231,16 @@
     <div class="gallery-inner">
 
       <div class="gallery-header">
-        <div class="gallery-heading" role="heading" aria-level="2">
-          <span class="cut cut-3 reveal delay-1" style="--r:-2deg">THE</span>
-          <span class="cut cut-1 reveal delay-2" style="--r: 1deg">MEM</span>
-          <span class="cut cut-2 reveal delay-3" style="--r:-1deg">ORIES</span>
+        <div class="gallery-heading line-reveal-target" role="heading" aria-level="2">
+          <div class="line-wrap">
+            <div class="ransom-line">
+              <span class="cut cut-3" style="--r:-2deg">THE</span>
+              <span class="cut cut-1" style="--r: 1deg">MEM</span>
+              <span class="cut cut-2" style="--r:-1deg">ORIES</span>
+            </div>
+          </div>
         </div>
-        <p class="gallery-sub reveal delay-4">💋 tap any photo to enlarge 💋</p>
+        <p class="gallery-sub reveal delay-1">💋 tap any photo to enlarge 💋</p>
       </div>
 
       <!-- Populated by buildGallery() in app.js -->
@@ -244,14 +256,18 @@
     <div class="messages-inner">
 
       <div class="messages-header">
-        <div class="messages-heading" role="heading" aria-level="2">
-          <span class="cut cut-2 reveal delay-1" style="--r: 2deg">NOTES</span>
-          <span class="cut cut-4 reveal delay-2" style="--r:-1deg">FROM</span>
-          <span class="cut cut-1 reveal delay-3" style="--r: 3deg">THE</span>
-          <span class="cut cut-3 reveal delay-4" style="--r:-2deg">BURN</span>
-          <span class="cut cut-5 reveal delay-5" style="--r: 1deg">BOOK</span>
+        <div class="messages-heading line-reveal-target" role="heading" aria-level="2">
+          <div class="line-wrap">
+            <div class="ransom-line">
+              <span class="cut cut-2" style="--r: 2deg">NOTES</span>
+              <span class="cut cut-4" style="--r:-1deg">FROM</span>
+              <span class="cut cut-1" style="--r: 3deg">THE</span>
+              <span class="cut cut-3" style="--r:-2deg">BURN</span>
+              <span class="cut cut-5" style="--r: 1deg">BOOK</span>
+            </div>
+          </div>
         </div>
-        <p class="messages-sub reveal delay-6">(the nice version 🖤)</p>
+        <p class="messages-sub reveal delay-1">(the nice version 🖤)</p>
       </div>
 
       <!-- Populated by buildMessages() in app.js -->
@@ -276,22 +292,33 @@
     <div class="closing-content">
 
       <!-- Top quote -->
-      <div class="closing-quote-wrap reveal">
-        <span class="cut cut-6" style="--r:-2deg">ON</span>
-        <span class="cut cut-3" style="--r: 1deg">WEDNESDAYS</span>
-        <span class="cut cut-6" style="--r:-1deg">WE</span>
-        <span class="cut cut-2" style="--r: 2deg">WEAR</span>
-        <span class="cut cut-1" style="--r:-2deg">PINK</span>
+      <div class="closing-quote-wrap line-reveal-target">
+        <div class="line-wrap">
+          <div class="ransom-line">
+            <span class="cut cut-6" style="--r:-2deg">ON</span>
+            <span class="cut cut-3" style="--r: 1deg">WEDNESDAYS</span>
+            <span class="cut cut-6" style="--r:-1deg">WE</span>
+            <span class="cut cut-2" style="--r: 2deg">WEAR</span>
+            <span class="cut cut-1" style="--r:-2deg">PINK</span>
+          </div>
+        </div>
       </div>
 
       <!-- Main headline -->
-      <div class="closing-main-headline reveal delay-2">
-        <span class="cut cut-3" style="--r: 2deg">FOUR</span>
-        <span class="cut cut-1" style="--r:-1deg">FOR</span>
-        <span class="cut cut-6" style="--r: 3deg">YOU,</span>
-        <br>
-        <span class="cut cut-2" style="--r:-2deg">AMANDA</span>
-        <span class="cut cut-4" style="--r: 1deg">💋</span>
+      <div class="closing-main-headline line-reveal-target">
+        <div class="line-wrap">
+          <div class="ransom-line">
+            <span class="cut cut-3" style="--r: 2deg">FOUR</span>
+            <span class="cut cut-1" style="--r:-1deg">FOR</span>
+            <span class="cut cut-6" style="--r: 3deg">YOU,</span>
+          </div>
+        </div>
+        <div class="line-wrap">
+          <div class="ransom-line">
+            <span class="cut cut-2" style="--r:-2deg">AMANDA</span>
+            <span class="cut cut-4" style="--r: 1deg">💋</span>
+          </div>
+        </div>
       </div>
 
       <p class="closing-sub reveal delay-3">You go, Amanda. You go.</p>

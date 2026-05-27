@@ -1,11 +1,11 @@
 /* ============================================================
    AMANDA'S BIRTHDAY — BURN BOOK EDITION
-   Mean Girls · Pink & Black · Ransom Note Typography
+   Cosmos-inspired: single dark canvas, flowing sections
 ============================================================ */
 
-/* --- Google Fonts import via HTML --- */
-
-/* --- CSS Custom Properties --- */
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+============================================================ */
 :root {
   --hot-pink:   #E91E8C;
   --deep-pink:  #C2185B;
@@ -13,12 +13,12 @@
   --pale-pink:  #FFE4F0;
   --blush:      #FFB6C1;
   --black:      #0D0D0D;
+  --canvas:     #080808;
   --off-black:  #1A0A12;
   --white:      #FFFFFF;
   --cream:      #FFF8F0;
   --red:        #CC0000;
 
-  /* Ransom-note font palette */
   --f-bebas:    'Bebas Neue', cursive;
   --f-playfair: 'Playfair Display', serif;
   --f-oswald:   'Oswald', sans-serif;
@@ -27,8 +27,8 @@
   --f-dancing:  'Dancing Script', cursive;
   --f-nunito:   'Nunito', sans-serif;
 
-  --shadow-pol: 4px 8px 28px rgba(0,0,0,0.35);
-  --shadow-pol-hover: 8px 16px 48px rgba(0,0,0,0.55);
+  --shadow-pol:       4px 8px 28px rgba(0,0,0,0.45);
+  --shadow-pol-hover: 8px 16px 48px rgba(0,0,0,0.7);
 }
 
 /* ============================================================
@@ -40,8 +40,8 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--f-nunito);
-  background: var(--black);
-  color: var(--black);
+  background: var(--canvas);
+  color: var(--white);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -53,8 +53,41 @@ button { cursor: pointer; border: none; background: none; }
 [hidden] { display: none !important; }
 
 /* ============================================================
+   GRAIN OVERLAY — fixed film-grain texture
+============================================================ */
+#grain {
+  position: fixed;
+  inset: -200%;
+  width: 500%;
+  height: 500%;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>");
+  opacity: 0.038;
+  pointer-events: none;
+  z-index: 9998;
+  animation: grain-shift 0.4s steps(2) infinite;
+}
+
+@keyframes grain-shift {
+  0%   { transform: translate(0,    0);    }
+  25%  { transform: translate(-1%,  1%);   }
+  50%  { transform: translate(1%,  -1%);   }
+  75%  { transform: translate(0%,   1%);   }
+  100% { transform: translate(-1%,  0%);   }
+}
+
+/* ============================================================
+   SCROLL-DRIVEN BACKGROUND GLOW — fixed layer behind all sections
+============================================================ */
+#bg-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  will-change: background;
+}
+
+/* ============================================================
    RANSOM NOTE CUT-OUT SYSTEM
-   6 variants — mix for the cut-from-different-magazines look
 ============================================================ */
 .cut {
   display: inline-block;
@@ -66,63 +99,65 @@ button { cursor: pointer; border: none; background: none; }
   letter-spacing: 0.02em;
 }
 
-/* Newspaper headline — black bg, white serif */
-.cut-1 {
-  background: var(--black);
-  color: var(--white);
-  font-family: var(--f-playfair);
-  font-weight: 900;
-  font-style: italic;
+.cut-1 { background: var(--black); color: var(--white); font-family: var(--f-playfair); font-weight: 900; font-style: italic; }
+.cut-2 { background: var(--hot-pink); color: var(--white); font-family: var(--f-bebas); letter-spacing: 3px; }
+.cut-3 { background: var(--white); color: var(--black); font-family: var(--f-oswald); font-weight: 700; border: 3px solid var(--black); padding: 2px 8px; }
+.cut-4 { background: var(--blush); color: var(--deep-pink); font-family: var(--f-abril); }
+.cut-5 { background: var(--deep-pink); color: var(--white); font-family: var(--f-special); font-size: 0.95em; }
+.cut-6 { background: var(--cream); color: var(--black); font-family: var(--f-special); border: 2px solid var(--black); }
+
+/* ============================================================
+   LINE-BY-LINE HEADING REVEAL  (Cosmos-style)
+   Add .line-reveal-target to the heading wrapper.
+   JS adds .lines-visible when it enters the viewport.
+============================================================ */
+.line-wrap {
+  display: block;
+  overflow: hidden;
 }
 
-/* Hot magazine — hot pink bg, white sans */
-.cut-2 {
-  background: var(--hot-pink);
-  color: var(--white);
-  font-family: var(--f-bebas);
-  letter-spacing: 3px;
+/* Initial: ransom lines hidden below overflow boundary */
+.line-wrap .ransom-line {
+  transform: translateY(115%);
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;
 }
 
-/* Classic cutout — white bg, black border, condensed */
-.cut-3 {
-  background: var(--white);
-  color: var(--black);
-  font-family: var(--f-oswald);
-  font-weight: 700;
-  border: 3px solid var(--black);
-  padding: 2px 8px;
+/* Revealed: slide up staggered per line */
+.lines-visible .line-wrap:nth-child(1) .ransom-line { transform: translateY(0); transition-delay: 0.00s; }
+.lines-visible .line-wrap:nth-child(2) .ransom-line { transform: translateY(0); transition-delay: 0.12s; }
+.lines-visible .line-wrap:nth-child(3) .ransom-line { transform: translateY(0); transition-delay: 0.22s; }
+.lines-visible .line-wrap:nth-child(4) .ransom-line { transform: translateY(0); transition-delay: 0.32s; }
+
+/* ============================================================
+   WORD-BY-WORD BODY TEXT REVEAL
+   Add .split-words to any <p>. JS wraps each word in <span class="word">.
+   JS adds .words-visible to the paragraph when it enters viewport.
+============================================================ */
+.word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  transition-delay: calc(var(--wi, 0) * 0.022s);
 }
 
-/* Blush — light pink bg, deep pink serif */
-.cut-4 {
-  background: var(--blush);
-  color: var(--deep-pink);
-  font-family: var(--f-abril);
-}
-
-/* Deep mag — deep pink bg, white typewriter */
-.cut-5 {
-  background: var(--deep-pink);
-  color: var(--white);
-  font-family: var(--f-special);
-  font-size: 0.95em;
-}
-
-/* Typewriter — cream bg, black, distressed */
-.cut-6 {
-  background: var(--cream);
-  color: var(--black);
-  font-family: var(--f-special);
-  border: 2px solid var(--black);
+.words-visible .word {
+  opacity: 1;
+  transform: none;
 }
 
 /* ============================================================
-   SCROLL REVEAL
+   GENERIC SCROLL REVEALS (for elements not using line/word system)
 ============================================================ */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.26, 0.64, 1);
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.34, 1.26, 0.64, 1);
 }
 
 .reveal.visible {
@@ -152,13 +187,12 @@ button { cursor: pointer; border: none; background: none; }
   transform: translateX(0) rotate(var(--rot, 0deg));
 }
 
-/* Stagger delays */
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
-.delay-4 { transition-delay: 0.4s; }
-.delay-5 { transition-delay: 0.5s; }
-.delay-6 { transition-delay: 0.6s; }
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.16s; }
+.delay-3 { transition-delay: 0.24s; }
+.delay-4 { transition-delay: 0.32s; }
+.delay-5 { transition-delay: 0.40s; }
+.delay-6 { transition-delay: 0.48s; }
 
 /* ============================================================
    PASSWORD GATE
@@ -171,11 +205,10 @@ button { cursor: pointer; border: none; background: none; }
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: var(--off-black);
+  background: #060606;
   overflow: hidden;
 }
 
-/* Scattered lips & dots background */
 .gate-bg {
   position: absolute;
   inset: 0;
@@ -186,7 +219,7 @@ button { cursor: pointer; border: none; background: none; }
 .gate-bg-lip {
   position: absolute;
   font-size: clamp(20px, 4vw, 48px);
-  opacity: 0.08;
+  opacity: 0.07;
   animation: gate-float 8s ease-in-out infinite;
 }
 
@@ -195,18 +228,16 @@ button { cursor: pointer; border: none; background: none; }
   50%       { transform: translateY(-15px) rotate(calc(var(--gr, 0deg) + 10deg)); }
 }
 
-/* The book card */
 .gate-book {
   width: 100%;
   max-width: 440px;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(233,30,140,0.3);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(233,30,140,0.25);
   position: relative;
   z-index: 1;
 }
 
-/* Pink book cover */
 .gate-cover {
   background: var(--hot-pink);
   padding: 32px 28px 28px;
@@ -214,6 +245,7 @@ button { cursor: pointer; border: none; background: none; }
   position: relative;
 }
 
+/* Torn paper edge at bottom of cover */
 .gate-cover::after {
   content: '';
   position: absolute;
@@ -254,9 +286,7 @@ button { cursor: pointer; border: none; background: none; }
   margin-bottom: 14px;
 }
 
-.gate-cover-title .cut {
-  font-size: clamp(22px, 5vw, 32px);
-}
+.gate-cover-title .cut { font-size: clamp(22px, 5vw, 32px); }
 
 .gate-cover-sub {
   font-family: var(--f-dancing);
@@ -271,7 +301,6 @@ button { cursor: pointer; border: none; background: none; }
   letter-spacing: 6px;
 }
 
-/* White lined page */
 .gate-page {
   background: var(--cream);
   padding: 32px 28px 28px;
@@ -282,17 +311,16 @@ button { cursor: pointer; border: none; background: none; }
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(to bottom,
-      transparent calc(2.4rem - 1px),
-      rgba(233,30,140,0.2) calc(2.4rem - 1px),
-      rgba(233,30,140,0.2) 2.4rem,
-      transparent 2.4rem
-    );
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(2.4rem - 1px),
+    rgba(233,30,140,0.2) calc(2.4rem - 1px),
+    rgba(233,30,140,0.2) 2.4rem,
+    transparent 2.4rem
+  );
   background-size: 100% 2.4rem;
 }
 
-/* Red margin line */
 .gate-page::before {
   content: '';
   position: absolute;
@@ -303,10 +331,7 @@ button { cursor: pointer; border: none; background: none; }
   background: rgba(204,0,0,0.3);
 }
 
-.gate-page-content {
-  position: relative;
-  z-index: 1;
-}
+.gate-page-content { position: relative; z-index: 1; }
 
 .gate-page-label {
   font-family: var(--f-dancing);
@@ -337,9 +362,7 @@ button { cursor: pointer; border: none; background: none; }
   font-size: 14px;
 }
 
-.gate-input:focus {
-  border-bottom-color: var(--deep-pink);
-}
+.gate-input:focus { border-bottom-color: var(--deep-pink); }
 
 .gate-btn {
   width: 100%;
@@ -353,14 +376,8 @@ button { cursor: pointer; border: none; background: none; }
   transition: background 0.2s, color 0.2s, transform 0.1s;
 }
 
-.gate-btn:hover {
-  background: var(--hot-pink);
-  color: var(--white);
-}
-
-.gate-btn:active {
-  transform: scale(0.98);
-}
+.gate-btn:hover  { background: var(--hot-pink); color: var(--white); }
+.gate-btn:active { transform: scale(0.98); }
 
 .gate-error {
   font-family: var(--f-dancing);
@@ -372,7 +389,6 @@ button { cursor: pointer; border: none; background: none; }
   font-weight: 700;
 }
 
-/* Shake animation on wrong password */
 @keyframes gate-shake {
   0%, 100% { transform: translateX(0); }
   15%       { transform: translateX(-10px); }
@@ -383,14 +399,9 @@ button { cursor: pointer; border: none; background: none; }
   90%       { transform: translateX(4px); }
 }
 
-.gate-book.shake {
-  animation: gate-shake 0.4s ease;
-}
+.gate-book.shake { animation: gate-shake 0.4s ease; }
 
-/* Gate exit transition */
-.gate.exiting {
-  animation: gate-exit 0.8s ease-in forwards;
-}
+.gate.exiting { animation: gate-exit 0.8s ease-in forwards; }
 
 @keyframes gate-exit {
   0%   { opacity: 1; transform: scale(1); }
@@ -422,17 +433,17 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 /* ============================================================
-   MAIN SITE
+   MAIN SITE — all sections on the same dark canvas
+   Every section: position relative, z-index 1 (above #bg-glow)
 ============================================================ */
-#site {
-  display: block;
-}
+#site { display: block; }
 
 /* ============================================================
    HERO
 ============================================================ */
 .hero {
   position: relative;
+  z-index: 1;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -441,21 +452,20 @@ button { cursor: pointer; border: none; background: none; }
   padding: 80px 24px 60px;
   overflow: hidden;
   text-align: center;
+  /* Hero has its own gradient that fades into the dark canvas below */
+  background: radial-gradient(ellipse at 50% 0%, rgba(233,30,140,0.4) 0%, transparent 70%), var(--canvas);
 }
 
-/* Pink glitter background */
 .hero-bg {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(255,105,180,0.7) 0%, transparent 55%),
-    radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.5) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 50%, rgba(233,30,140,0.3) 0%, transparent 70%),
+    radial-gradient(ellipse at 30% 20%, rgba(255,105,180,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(194,24,91,0.4) 0%, transparent 55%),
     var(--hot-pink);
   z-index: 0;
 }
 
-/* Glitter sparkle dots */
 .hero-bg::after {
   content: '';
   position: absolute;
@@ -474,7 +484,6 @@ button { cursor: pointer; border: none; background: none; }
   100% { opacity: 0.7; }
 }
 
-/* Ghost oversized text behind everything */
 .hero-ghost {
   position: absolute;
   top: 50%;
@@ -491,7 +500,6 @@ button { cursor: pointer; border: none; background: none; }
   letter-spacing: 10px;
 }
 
-/* Floating lip emojis */
 .hero-deco {
   position: absolute;
   inset: 0;
@@ -502,24 +510,24 @@ button { cursor: pointer; border: none; background: none; }
 .deco-lip {
   position: absolute;
   font-size: clamp(24px, 4vw, 48px);
-  opacity: 0.25;
+  opacity: 0.22;
   animation: lip-float 6s ease-in-out infinite;
 }
 
-.lip-1 { top: 12%; left: 8%;  animation-delay: 0s;   animation-duration: 7s;  --gr: -15deg; }
-.lip-2 { top: 18%; right: 6%; animation-delay: 1.5s; animation-duration: 6s;  --gr: 10deg; }
-.lip-3 { bottom: 20%; left: 12%; animation-delay: 0.8s; animation-duration: 8s; --gr: 5deg; }
-.lip-4 { bottom: 15%; right: 10%; animation-delay: 2s; animation-duration: 7s; --gr: -8deg; }
+.lip-1 { top: 12%; left:  8%;  animation-delay: 0s;   animation-duration: 7s;  --gr: -15deg; }
+.lip-2 { top: 18%; right: 6%;  animation-delay: 1.5s; animation-duration: 6s;  --gr:  10deg; }
+.lip-3 { bottom: 20%; left: 12%;  animation-delay: 0.8s; animation-duration: 8s; --gr:  5deg; }
+.lip-4 { bottom: 15%; right: 10%; animation-delay: 2s;   animation-duration: 7s; --gr: -8deg; }
 
 .deco-star {
   position: absolute;
   font-size: clamp(16px, 2.5vw, 28px);
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.35);
   animation: star-spin 10s linear infinite;
 }
 
-.star-1 { top: 30%; left: 5%;  animation-delay: 0s; }
-.star-2 { top: 60%; right: 4%; animation-delay: 3s; }
+.star-1 { top: 30%; left: 5%;   animation-delay: 0s; }
+.star-2 { top: 60%; right: 4%;  animation-delay: 3s; }
 .star-3 { top: 8%;  right: 20%; animation-delay: 1s; animation-duration: 15s; }
 
 @keyframes lip-float {
@@ -532,7 +540,7 @@ button { cursor: pointer; border: none; background: none; }
   to   { transform: rotate(360deg); }
 }
 
-/* Floating polaroids */
+/* Hero polaroids */
 .hero-polaroids {
   position: absolute;
   inset: 0;
@@ -547,6 +555,7 @@ button { cursor: pointer; border: none; background: none; }
   box-shadow: var(--shadow-pol);
   border-radius: 2px;
   transform: rotate(var(--rot, 0deg));
+  will-change: transform;
 }
 
 .hero-pol-tape {
@@ -575,13 +584,11 @@ button { cursor: pointer; border: none; background: none; }
   color: var(--black);
 }
 
-/* Desktop polaroid positions */
-.hp-1 { width: clamp(110px, 14vw, 170px); top: 8%;  left: 3%;  }
-.hp-2 { width: clamp(120px, 15vw, 180px); top: 15%; right: 3%; }
-.hp-3 { width: clamp(100px, 13vw, 155px); bottom: 12%; left: 6%; }
-.hp-4 { width: clamp(115px, 14vw, 165px); bottom: 10%; right: 5%; }
+.hp-1 { width: clamp(110px, 14vw, 170px); top: 8%;      left: 3%;   }
+.hp-2 { width: clamp(120px, 15vw, 180px); top: 15%;     right: 3%;  }
+.hp-3 { width: clamp(100px, 13vw, 155px); bottom: 12%;  left: 6%;   }
+.hp-4 { width: clamp(115px, 14vw, 165px); bottom: 10%;  right: 5%;  }
 
-/* Hide some polaroids on very small screens */
 @media (max-width: 500px) {
   .hp-1, .hp-4 { display: none; }
   .hp-2 { top: 4%; right: 2%; width: 100px; }
@@ -609,21 +616,13 @@ button { cursor: pointer; border: none; background: none; }
   backdrop-filter: blur(4px);
 }
 
-.hero-headline {
-  margin-bottom: 20px;
-}
+.hero-headline { margin-bottom: 20px; }
 
-.ransom-line {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 6px;
-}
+/* ransom-line inside line-wrap — base state set by .line-wrap rule above */
 
 .hero-headline .cut {
   font-size: clamp(28px, 8vw, 72px);
-  box-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.35);
 }
 
 .hero-sub {
@@ -643,7 +642,7 @@ button { cursor: pointer; border: none; background: none; }
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.5);
   animation: scroll-bounce 2.5s ease-in-out infinite;
   z-index: 4;
 }
@@ -654,28 +653,17 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 /* ============================================================
-   STORY SECTION
+   STORY SECTION — dark canvas, notebook lines inverted for dark
 ============================================================ */
 .story {
-  background: var(--cream);
-  padding: 90px 24px 80px;
   position: relative;
+  z-index: 1;
+  background: var(--canvas);
+  padding: 140px 24px 120px;
   overflow: hidden;
 }
 
-/* Wavy top edge */
-.story::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: var(--cream);
-  clip-path: ellipse(55% 100% at 50% 100%);
-}
-
-/* Notebook line background */
+/* Notebook line background — subtle white on dark */
 .story-lines {
   position: absolute;
   inset: 0;
@@ -683,14 +671,14 @@ button { cursor: pointer; border: none; background: none; }
   background-image: linear-gradient(
     to bottom,
     transparent calc(2.8rem - 1px),
-    rgba(233,30,140,0.15) calc(2.8rem - 1px),
-    rgba(233,30,140,0.15) 2.8rem,
+    rgba(255,255,255,0.05) calc(2.8rem - 1px),
+    rgba(255,255,255,0.05) 2.8rem,
     transparent 2.8rem
   );
   background-size: 100% 2.8rem;
 }
 
-/* Red margin line */
+/* Red margin line — kept, subtle on dark */
 .story-lines::before {
   content: '';
   position: absolute;
@@ -698,7 +686,7 @@ button { cursor: pointer; border: none; background: none; }
   bottom: 0;
   left: clamp(24px, 8vw, 80px);
   width: 2px;
-  background: rgba(204,0,0,0.25);
+  background: rgba(204,0,0,0.2);
 }
 
 .story-inner {
@@ -712,21 +700,17 @@ button { cursor: pointer; border: none; background: none; }
   align-items: center;
 }
 
-.section-label {
-  margin-bottom: 14px;
-}
+.section-label { margin-bottom: 14px; }
 
-.section-label .cut {
-  font-size: clamp(12px, 2vw, 16px);
-}
+.section-label .cut { font-size: clamp(12px, 2vw, 16px); }
 
 .story-heading {
   font-family: var(--f-playfair);
   font-size: clamp(28px, 5vw, 50px);
   font-weight: 900;
-  color: var(--black);
+  color: var(--white);
   line-height: 1.1;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
 .story-heading-accent {
@@ -737,18 +721,18 @@ button { cursor: pointer; border: none; background: none; }
 .story-body {
   font-family: var(--f-nunito);
   font-size: clamp(14px, 2vw, 16px);
-  line-height: 1.85;
-  color: rgba(13,13,13,0.75);
-  margin-bottom: 16px;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 18px;
   max-width: 480px;
 }
 
 .story-sign {
   font-family: var(--f-dancing);
   font-size: clamp(20px, 3.5vw, 28px);
-  color: var(--hot-pink);
+  color: var(--bubblegum);
   font-weight: 700;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 /* Polaroid scatter */
@@ -806,18 +790,12 @@ button { cursor: pointer; border: none; background: none; }
 .sp-3 { width: 185px; top: 210px;left: 30px;  z-index: 4; }
 .sp-4 { width: 170px; top: 255px;left: 200px; z-index: 1; }
 
-/* Mobile story */
 @media (max-width: 768px) {
-  .story-inner {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-  .story-scatter {
-    height: 320px;
-  }
-  .sp-1 { width: 130px; top: 0;    left: 10px; }
+  .story-inner { grid-template-columns: 1fr; gap: 48px; }
+  .story-scatter { height: 320px; }
+  .sp-1 { width: 130px; top: 0;    left: 10px;  }
   .sp-2 { width: 120px; top: 40px; left: 110px; }
-  .sp-3 { width: 125px; top: 140px;left: 20px; }
+  .sp-3 { width: 125px; top: 140px;left: 20px;  }
   .sp-4 { width: 115px; top: 170px;left: 140px; }
 }
 
@@ -825,33 +803,21 @@ button { cursor: pointer; border: none; background: none; }
    GALLERY SECTION
 ============================================================ */
 .gallery {
-  background: var(--off-black);
-  padding: 90px 24px;
   position: relative;
+  z-index: 1;
+  background: #060606;
+  padding: 130px 24px 120px;
   overflow: hidden;
 }
 
-/* Subtle pink glow */
-.gallery::before {
-  content: '';
-  position: absolute;
-  top: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 400px;
-  background: radial-gradient(ellipse, rgba(233,30,140,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Dot grid texture */
 .gallery::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
+  z-index: 0;
 }
 
 .gallery-inner {
@@ -863,7 +829,7 @@ button { cursor: pointer; border: none; background: none; }
 
 .gallery-header {
   text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 64px;
 }
 
 .gallery-heading {
@@ -877,7 +843,7 @@ button { cursor: pointer; border: none; background: none; }
 
 .gallery-heading .cut {
   font-size: clamp(22px, 5.5vw, 52px);
-  box-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.6);
 }
 
 .gallery-sub {
@@ -886,7 +852,7 @@ button { cursor: pointer; border: none; background: none; }
   font-size: 11px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.25);
 }
 
 .gallery-grid {
@@ -895,22 +861,38 @@ button { cursor: pointer; border: none; background: none; }
   gap: 20px;
 }
 
+/* Polaroid drop-in: starts rotated + above, lands at final position */
 .gallery-pol {
   background: var(--white);
   padding: 8px 8px 36px;
-  box-shadow: 4px 8px 24px rgba(0,0,0,0.55);
+  box-shadow: var(--shadow-pol);
   border-radius: 2px;
   cursor: pointer;
-  transform: rotate(var(--rot, 0deg));
-  transition: transform 0.3s cubic-bezier(0.34, 1.26, 0.64, 1),
-              box-shadow 0.3s ease;
   position: relative;
+  will-change: transform, opacity;
+
+  /* Initial (hidden) state */
+  opacity: 0;
+  transform: rotate(calc(var(--rot, 0deg) * 2.2)) translateY(-45px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.7s cubic-bezier(0.34, 1.46, 0.64, 1);
 }
 
+/* Revealed: settle to natural rotation */
+.gallery-pol.visible {
+  opacity: 1;
+  transform: rotate(var(--rot, 0deg)) translateY(0);
+}
+
+/* Hover: de-rotate and lift */
 .gallery-pol:hover {
-  transform: rotate(0deg) scale(1.06);
-  box-shadow: 8px 16px 48px rgba(0,0,0,0.75);
+  transform: rotate(0deg) scale(1.07) !important;
+  box-shadow: var(--shadow-pol-hover);
   z-index: 10;
+  transition:
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease;
 }
 
 .gallery-pol-tape {
@@ -942,33 +924,18 @@ button { cursor: pointer; border: none; background: none; }
   font-weight: 700;
 }
 
-@media (max-width: 900px) {
-  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 600px) {
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-}
+@media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
 /* ============================================================
    MESSAGES SECTION
 ============================================================ */
 .messages {
-  background: var(--pale-pink);
-  padding: 90px 24px 80px;
   position: relative;
+  z-index: 1;
+  background: var(--canvas);
+  padding: 130px 24px 120px;
   overflow: hidden;
-}
-
-.messages::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  left: 0;
-  right: 0;
-  height: 60px;
-  background: var(--pale-pink);
-  clip-path: ellipse(55% 100% at 50% 100%);
 }
 
 .messages-inner {
@@ -980,7 +947,7 @@ button { cursor: pointer; border: none; background: none; }
 
 .messages-header {
   text-align: center;
-  margin-bottom: 52px;
+  margin-bottom: 56px;
 }
 
 .messages-heading {
@@ -994,13 +961,13 @@ button { cursor: pointer; border: none; background: none; }
 
 .messages-heading .cut {
   font-size: clamp(18px, 4vw, 36px);
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
 }
 
 .messages-sub {
   font-family: var(--f-dancing);
   font-size: clamp(16px, 3vw, 22px);
-  color: var(--deep-pink);
+  color: var(--bubblegum);
   font-weight: 700;
 }
 
@@ -1010,6 +977,7 @@ button { cursor: pointer; border: none; background: none; }
   gap: 24px;
 }
 
+/* White cards float on dark — authentic Burn Book pages */
 .msg-card {
   border-radius: 4px;
   padding: 28px 22px;
@@ -1017,10 +985,10 @@ button { cursor: pointer; border: none; background: none; }
   overflow: hidden;
   background: var(--white);
   border-top: 5px solid var(--hot-pink);
-  box-shadow: 3px 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 4px 8px 32px rgba(0,0,0,0.5);
+  color: var(--black);
 }
 
-/* Notebook lines on message cards */
 .msg-card::before {
   content: '';
   position: absolute;
@@ -1046,20 +1014,13 @@ button { cursor: pointer; border: none; background: none; }
   background: rgba(233,30,140,0.08);
 }
 
-/* Border colour variants */
 .msg-card:nth-child(2) { border-top-color: var(--black); }
 .msg-card:nth-child(3) { border-top-color: var(--deep-pink); }
 .msg-card:nth-child(4) { border-top-color: var(--bubblegum); }
 .msg-card:nth-child(5) { border-top-color: var(--black); }
 .msg-card:nth-child(6) { border-top-color: var(--hot-pink); }
 
-.msg-icon {
-  font-size: 28px;
-  display: block;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
-}
+.msg-icon   { font-size: 28px; display: block; margin-bottom: 10px; position: relative; z-index: 1; }
 
 .msg-author {
   font-family: var(--f-playfair);
@@ -1080,22 +1041,18 @@ button { cursor: pointer; border: none; background: none; }
   z-index: 1;
 }
 
-@media (max-width: 900px) {
-  .messages-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 560px) {
-  .messages-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px) { .messages-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .messages-grid { grid-template-columns: 1fr; } }
 
 /* ============================================================
    CLOSING SECTION
 ============================================================ */
 .closing {
-  background: var(--black);
-  padding: 100px 24px 80px;
-  text-align: center;
   position: relative;
+  z-index: 1;
+  background: #060606;
+  padding: 150px 24px 100px;
+  text-align: center;
   overflow: hidden;
   min-height: 80vh;
   display: flex;
@@ -1103,20 +1060,6 @@ button { cursor: pointer; border: none; background: none; }
   justify-content: center;
 }
 
-/* Pink glow burst behind content */
-.closing::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: clamp(300px, 60vw, 700px);
-  height: clamp(300px, 60vw, 700px);
-  background: radial-gradient(ellipse, rgba(233,30,140,0.18) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Scattered lips decoration */
 .closing-deco {
   position: absolute;
   inset: 0;
@@ -1126,14 +1069,15 @@ button { cursor: pointer; border: none; background: none; }
 .closing-lip {
   position: absolute;
   font-size: clamp(24px, 5vw, 60px);
-  opacity: 0.1;
+  opacity: 0.08;
   animation: lip-float 7s ease-in-out infinite;
+  will-change: transform;
 }
 
-.cl-1 { top: 10%; left: 8%;  animation-delay: 0s; }
-.cl-2 { top: 15%; right: 6%; animation-delay: 2s; }
-.cl-3 { bottom: 15%; left: 12%; animation-delay: 1s; }
-.cl-4 { bottom: 10%; right: 8%; animation-delay: 3s; }
+.cl-1 { top: 10%;     left: 8%;   animation-delay: 0s; }
+.cl-2 { top: 15%;     right: 6%;  animation-delay: 2s; }
+.cl-3 { bottom: 15%;  left: 12%;  animation-delay: 1s; }
+.cl-4 { bottom: 10%;  right: 8%;  animation-delay: 3s; }
 
 .closing-content {
   position: relative;
@@ -1142,38 +1086,24 @@ button { cursor: pointer; border: none; background: none; }
 }
 
 .closing-quote-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 36px;
-  opacity: 0.7;
-}
-
-.closing-quote-wrap .cut {
-  font-size: clamp(14px, 3vw, 24px);
+  margin-bottom: 44px;
+  opacity: 0.6;
 }
 
 .closing-main-headline {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .closing-main-headline .cut {
   font-size: clamp(26px, 7vw, 72px);
-  box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.6);
 }
 
 .closing-sub {
   font-family: var(--f-dancing);
   font-size: clamp(18px, 4vw, 30px);
   color: var(--bubblegum);
-  margin-bottom: 40px;
+  margin-bottom: 44px;
   font-weight: 700;
 }
 
@@ -1186,7 +1116,7 @@ button { cursor: pointer; border: none; background: none; }
 
 .closing-tagline .cut {
   font-size: clamp(10px, 2vw, 14px);
-  opacity: 0.65;
+  opacity: 0.55;
 }
 
 /* ============================================================
@@ -1205,7 +1135,7 @@ button { cursor: pointer; border: none; background: none; }
 .lightbox-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.88);
+  background: rgba(0,0,0,0.92);
   cursor: pointer;
 }
 
@@ -1229,20 +1159,18 @@ button { cursor: pointer; border: none; background: none; }
   top: -44px;
   right: 0;
   font-size: 24px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.6);
   font-family: var(--f-nunito);
   font-weight: 800;
   transition: color 0.2s;
 }
 
-.lightbox-close:hover {
-  color: var(--hot-pink);
-}
+.lightbox-close:hover { color: var(--hot-pink); }
 
 .lightbox-polaroid {
   background: var(--white);
   padding: 14px 14px 50px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.9);
   border-radius: 2px;
   max-width: min(80vw, 500px);
   width: 100%;
@@ -1274,5 +1202,11 @@ button { cursor: pointer; border: none; background: none; }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+  /* Ensure reveals still show content */
+  .reveal, .reveal-left, .reveal-right,
+  .word, .line-wrap .ransom-line {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
