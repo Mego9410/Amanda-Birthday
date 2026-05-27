@@ -58,10 +58,6 @@ const lbBackdropEl= document.getElementById('lb-backdrop');
 const PASSWORD_FULL     = 'Amanda2026';
 const PASSWORD_REDACTED = '2026Amanda';
 
-const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
-let supabase = null;
-
 function handlePasswordSubmit() {
   const val = inputEl.value.trim();
   if (val === PASSWORD_FULL || val === PASSWORD_REDACTED) {
@@ -350,7 +346,6 @@ function buildMessages() {
    RSVP
 ============================================================ */
 function initRSVP() {
-  if (!supabase) supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
   const form        = document.getElementById('rsvp-form');
   const submitBtn   = document.getElementById('rsvp-submit');
   const rsvpErrorEl = document.getElementById('rsvp-error');
@@ -377,17 +372,10 @@ function initRSVP() {
     if (!email)     { showRSVPError('Please enter your email address.'); return; }
     if (!attending) { showRSVPError('Please select whether you\'re coming.'); return; }
     setLoading(true);
-    const { error } = await supabase
-      .from('rsvps')
-      .insert({ full_name: name, email, attending, dietary: dietary || null });
+    await new Promise(r => setTimeout(r, 800));
     setLoading(false);
-    if (error) {
-      showRSVPError('Something went wrong — please try again.');
-      console.error(error);
-    } else {
-      form.hidden = true;
-      successEl.hidden = false;
-    }
+    form.hidden = true;
+    successEl.hidden = false;
   });
 
   function showRSVPError(msg) {
