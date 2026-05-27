@@ -1273,6 +1273,28 @@ button { cursor: pointer; border: none; background: none; }
   white-space: nowrap;
 }
 
+/* Eye censor bars — redacted mode only */
+.gallery-pol-img,
+.hero-pol-img,
+.scatter-pol-img,
+.lightbox-img { position: relative; }
+
+[data-mode="redacted"] .gallery-pol-img::after,
+[data-mode="redacted"] .hero-pol-img::after,
+[data-mode="redacted"] .scatter-pol-img::after,
+[data-mode="redacted"] .lightbox-img::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--eye-top, 28%);
+  height: var(--eye-h, 18%);
+  background: #050505;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+  pointer-events: none;
+  z-index: 2;
+}
+
 [data-mode="redacted"] .msg-card.classified {
   position: relative;
 }
