@@ -372,15 +372,21 @@ function initRSVP() {
     const name      = form.full_name.value.trim();
     const email     = form.email.value.trim();
     const attending = attendInput.value;
+    const quote     = form.quote.value.trim();
     const dietary   = form.dietary.value.trim();
     if (!name)      { showRSVPError('Please enter your full name.'); return; }
     if (!email)     { showRSVPError('Please enter your email address.'); return; }
     if (!attending) { showRSVPError('Please select whether you\'re coming.'); return; }
+    if (!quote)     { showRSVPError('Please share a memory or message for Amanda.'); return; }
     setLoading(true);
     await new Promise(r => setTimeout(r, 800));
     setLoading(false);
     form.hidden = true;
     successEl.hidden = false;
+    addBurnBookMessage(name, quote);
+    setTimeout(() => {
+      document.getElementById('messages')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 1800);
   });
 
   function showRSVPError(msg) {
@@ -392,6 +398,44 @@ function initRSVP() {
     submitBtn.querySelector('.btn-label').hidden = on;
     submitBtn.querySelector('.btn-loading').hidden = !on;
   }
+}
+
+function addBurnBookMessage(author, text) {
+  const grid = document.getElementById('messages-grid');
+  if (!grid) return;
+
+  const icons = ['💌', '🥂', '✨', '💗', '🎉', '💫', '🖤', '👑'];
+  const icon  = icons[Math.floor(Math.random() * icons.length)];
+
+  const card     = document.createElement('div');
+  card.className = 'msg-card';
+
+  const accent   = document.createElement('div');
+  accent.className = 'msg-card-accent';
+
+  const iconEl   = document.createElement('span');
+  iconEl.className = 'msg-icon';
+  iconEl.textContent = icon;
+
+  const authorEl = document.createElement('div');
+  authorEl.className = 'msg-author';
+  authorEl.textContent = author;
+
+  const textEl   = document.createElement('p');
+  textEl.className = 'msg-text';
+  textEl.textContent = text;
+
+  card.append(accent, iconEl, authorEl, textEl);
+
+  card.style.opacity   = '0';
+  card.style.transform = 'translateY(28px)';
+  grid.appendChild(card);
+
+  requestAnimationFrame(() => {
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    card.style.opacity    = '1';
+    card.style.transform  = 'translateY(0)';
+  });
 }
 
 /* ============================================================
