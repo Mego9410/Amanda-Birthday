@@ -8,22 +8,22 @@
    PHOTO + MESSAGE CONFIG
 ============================================================ */
 const PHOTOS = [
-  { file: 'photo1.jpg',  caption: 'laugh out loud 💋',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)',  eyeBar: { top: '16%', h: '26%' } }, // 2 faces, different heights
-  { file: 'photo2.jpg',  caption: 'karaoke queens 🎤',        grad: 'linear-gradient(135deg,#C2185B,#E91E8C)',  eyeBar: { top: '26%', h: '16%' } }, // 2 people standing
-  { file: 'photo3.jpg',  caption: 'the dress 👰',             grad: 'linear-gradient(135deg,#FFB6C1,#FF69B4)',  eyeBar: { top: '24%', h: '18%' } }, // 2 people, similar height
-  { file: 'photo4.jpg',  caption: 'moustache moment 🥸',      grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)',  eyeBar: { top: '24%', h: '20%' } }, // 2 faces, medium shot
-  { file: 'photo5.jpg',  caption: 'crowned 👑',               grad: 'linear-gradient(135deg,#E91E8C,#FFB6C1)',  eyeBar: { top: '28%', h: '22%' } }, // 2 faces with crowns
-  { file: 'photo6.jpg',  caption: 'auntie vibes 🍼',          grad: 'linear-gradient(135deg,#FF69B4,#C2185B)',  eyeBar: { top: '12%', h: '32%' } }, // woman (top) + baby (middle)
-  { file: 'photo7.jpg',  caption: 'camden nights 🖤',         grad: 'linear-gradient(135deg,#0D0D0D,#E91E8C)',  eyeBar: { top: '16%', h: '34%' } }, // 7 people, varied heights
-  { file: 'photo8.jpg',  caption: 'underworld era 🕶️',       grad: 'linear-gradient(135deg,#C2185B,#0D0D0D)',  eyeBar: { top: '20%', h: '32%' } }, // 8 people, packed
-  { file: 'photo9.jpg',  caption: 'spooky szn 🎃',            grad: 'linear-gradient(135deg,#E91E8C,#C2185B)',  eyeBar: { top: '18%', h: '18%' } }, // 4 people in a line
-  { file: 'photo10.jpg', caption: 'legoland szn 🧱',          grad: 'linear-gradient(135deg,#FFB6C1,#E91E8C)',  eyeBar: { top: '26%', h: '20%' } }, // 4-5 people on train
-  { file: 'photo11.jpg', caption: 'hen do ☕',                grad: 'linear-gradient(135deg,#FF69B4,#FFB6C1)',  eyeBar: { top: '30%', h: '26%' } }, // large group around table
-  { file: 'photo12.jpg', caption: 'main character 🎤',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)',  eyeBar: { top: '24%', h: '20%' } }, // 2 people standing
-  { file: 'photo13.jpg', caption: 'theme park gang 💦',       grad: 'linear-gradient(135deg,#0D0D0D,#FF69B4)',  eyeBar: { top: '34%', h: '20%' } }, // 4 people on ride
-  { file: 'photo14.jpg', caption: 'bride to be 💍',           grad: 'linear-gradient(135deg,#C2185B,#FFB6C1)',  eyeBar: { top: '16%', h: '18%' } }, // solo portrait
-  { file: 'photo15.jpg', caption: 'disneyland paris 🏰',      grad: 'linear-gradient(135deg,#FF69B4,#E91E8C)',  eyeBar: { top: '24%', h: '34%' } }, // 8+ people, front + back rows
-  { file: 'photo16.jpg', caption: 'emo night forever 🖤',     grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)',  eyeBar: { top: '20%', h: '26%' } }, // 9 people, varied heights
+  { file: 'photo1.jpg',  caption: 'laugh out loud 💋',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)' },
+  { file: 'photo2.jpg',  caption: 'karaoke queens 🎤',        grad: 'linear-gradient(135deg,#C2185B,#E91E8C)' },
+  { file: 'photo3.jpg',  caption: 'the dress 👰',             grad: 'linear-gradient(135deg,#FFB6C1,#FF69B4)' },
+  { file: 'photo4.jpg',  caption: 'moustache moment 🥸',      grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)' },
+  { file: 'photo5.jpg',  caption: 'crowned 👑',               grad: 'linear-gradient(135deg,#E91E8C,#FFB6C1)' },
+  { file: 'photo6.jpg',  caption: 'auntie vibes 🍼',          grad: 'linear-gradient(135deg,#FF69B4,#C2185B)' },
+  { file: 'photo7.jpg',  caption: 'camden nights 🖤',         grad: 'linear-gradient(135deg,#0D0D0D,#E91E8C)' },
+  { file: 'photo8.jpg',  caption: 'underworld era 🕶️',       grad: 'linear-gradient(135deg,#C2185B,#0D0D0D)' },
+  { file: 'photo9.jpg',  caption: 'spooky szn 🎃',            grad: 'linear-gradient(135deg,#E91E8C,#C2185B)' },
+  { file: 'photo10.jpg', caption: 'legoland szn 🧱',          grad: 'linear-gradient(135deg,#FFB6C1,#E91E8C)' },
+  { file: 'photo11.jpg', caption: 'hen do ☕',                grad: 'linear-gradient(135deg,#FF69B4,#FFB6C1)' },
+  { file: 'photo12.jpg', caption: 'main character 🎤',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)' },
+  { file: 'photo13.jpg', caption: 'theme park gang 💦',       grad: 'linear-gradient(135deg,#0D0D0D,#FF69B4)' },
+  { file: 'photo14.jpg', caption: 'bride to be 💍',           grad: 'linear-gradient(135deg,#C2185B,#FFB6C1)' },
+  { file: 'photo15.jpg', caption: 'disneyland paris 🏰',      grad: 'linear-gradient(135deg,#FF69B4,#E91E8C)' },
+  { file: 'photo16.jpg', caption: 'emo night forever 🖤',     grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)' },
 ];
 
 const TAPE_COLORS = ['#E91E8C','#0D0D0D','#C2185B','#FF69B4','#FFB6C1'];
@@ -314,7 +314,7 @@ function buildGallery() {
 
     pol.innerHTML = `
       <div class="gallery-pol-tape" style="background:${tape}"></div>
-      <div class="gallery-pol-img" style="background-image:url('./photos/${p.file}'),${p.grad}; background-size:cover; background-position:center; --eye-top:${p.eyeBar.top}; --eye-h:${p.eyeBar.h}"></div>
+      <div class="gallery-pol-img" style="background-image:url('./photos/${p.file}'),${p.grad}; background-size:cover; background-position:center;"></div>
       <div class="gallery-pol-caption">${p.caption}</div>
     `;
 
@@ -446,8 +446,6 @@ function buildHeroCollage() {
 ============================================================ */
 function openLightbox(photo) {
   lbImgEl.style.backgroundImage = `url('./photos/${photo.file}'),${photo.grad}`;
-  lbImgEl.style.setProperty('--eye-top', photo.eyeBar.top);
-  lbImgEl.style.setProperty('--eye-h',   photo.eyeBar.h);
   lbCaptionEl.textContent        = photo.caption;
   lightboxEl.hidden              = false;
   document.body.style.overflow   = 'hidden';
