@@ -1446,6 +1446,42 @@ button { cursor: pointer; border: none; background: none; }
   margin: 0;
 }
 
+/* ── HERO COLLAGE ──────────────────────────────────────────── */
+
+.hero-collage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hc-pol {
+  position: absolute;
+  width: clamp(65px, 10vw, 100px);
+  background: #fff;
+  padding: 5px 5px 20px;
+  box-shadow: 2px 4px 18px rgba(0,0,0,0.55);
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.hc-pol-tape {
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 32px;
+  height: 13px;
+  opacity: 0.88;
+  border-radius: 2px;
+}
+
+.hc-pol-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background-size: cover;
+  background-position: center;
+}
+
 /* ============================================================
    REDUCED MOTION
 ============================================================ */

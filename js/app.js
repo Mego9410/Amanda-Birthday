@@ -76,6 +76,7 @@ function handlePasswordSubmit() {
         splitWords();
         buildGallery();
         buildMessages();
+        buildHeroCollage();
         initScrollReveal();
         initParallax();
         initRSVP();
@@ -391,6 +392,53 @@ function initRSVP() {
     submitBtn.querySelector('.btn-label').hidden = on;
     submitBtn.querySelector('.btn-loading').hidden = !on;
   }
+}
+
+/* ============================================================
+   HERO COLLAGE
+============================================================ */
+const HERO_COL_POS = [
+  { x: '-1%',  y: '4%',   rot: -18 },
+  { x: '12%',  y: '12%',  rot: 12  },
+  { x: '4%',   y: '26%',  rot: -9  },
+  { x: '28%',  y: '-3%',  rot: -5  },
+  { x: '56%',  y: '1%',   rot: 9   },
+  { x: '73%',  y: '5%',   rot: 7   },
+  { x: '80%',  y: '8%',   rot: 15  },
+  { x: '88%',  y: '22%',  rot: -8  },
+  { x: '-2%',  y: '70%',  rot: 14  },
+  { x: '9%',   y: '82%',  rot: -16 },
+  { x: '20%',  y: '88%',  rot: 8   },
+  { x: '35%',  y: '90%',  rot: -6  },
+  { x: '55%',  y: '86%',  rot: 11  },
+  { x: '74%',  y: '80%',  rot: -12 },
+  { x: '85%',  y: '68%',  rot: 10  },
+  { x: '-3%',  y: '47%',  rot: -13 },
+];
+const HC_TAPE_ROTS = [-8, 5, -3, 7, -5, 4, -9, 6];
+
+function buildHeroCollage() {
+  const container = document.getElementById('hero-collage');
+  if (!container) return;
+
+  PHOTOS.forEach((p, i) => {
+    const pos     = HERO_COL_POS[i];
+    const tape    = TAPE_COLORS[i % TAPE_COLORS.length];
+    const tapeRot = HC_TAPE_ROTS[i % HC_TAPE_ROTS.length];
+
+    const pol = document.createElement('div');
+    pol.className = 'hc-pol';
+    pol.style.left      = pos.x;
+    pol.style.top       = pos.y;
+    pol.style.transform = `rotate(${pos.rot}deg)`;
+
+    pol.innerHTML = `
+      <div class="hc-pol-tape" style="background:${tape}; transform:translateX(-50%) rotate(${tapeRot}deg)"></div>
+      <div class="hc-pol-img" style="background-image:url('./photos/${p.file}'),${p.grad}"></div>
+    `;
+
+    container.appendChild(pol);
+  });
 }
 
 /* ============================================================
