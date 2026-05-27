@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Happy Birthday Amanda 💋">
+  <title>Happy Birthday Amanda 💋</title>
+
+  <!-- Fonts: 7 typefaces for authentic ransom-note variety -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Oswald:wght@600;700&family=Special+Elite&family=Abril+Fatface&family=Dancing+Script:wght@700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     PASSWORD GATE
+     Full-screen burn book cover — blocks all content until unlocked
+============================================================ -->
+<div id="gate" class="gate" role="dialog" aria-modal="true" aria-label="Enter password to access site">
+
+  <!-- Scattered lips background -->
+  <div class="gate-bg" aria-hidden="true">
+    <span class="gate-bg-lip" style="top:5%;  left:4%;  --gr:-20deg; animation-delay:0s">💋</span>
+    <span class="gate-bg-lip" style="top:12%; right:7%; --gr:15deg;  animation-delay:1s">💋</span>
+    <span class="gate-bg-lip" style="top:40%; left:2%;  --gr:5deg;   animation-delay:2s">💋</span>
+    <span class="gate-bg-lip" style="top:60%; right:4%; --gr:-10deg; animation-delay:0.5s">💋</span>
+    <span class="gate-bg-lip" style="bottom:8%; left:8%; --gr:12deg; animation-delay:1.5s">💋</span>
+    <span class="gate-bg-lip" style="bottom:5%; right:6%;--gr:-5deg; animation-delay:2.5s">💋</span>
+    <span class="gate-bg-lip" style="top:28%; left:45%;--gr:8deg;   animation-delay:0.8s; font-size:16px; opacity:0.05">💋</span>
+    <span class="gate-bg-lip" style="top:75%; left:35%;--gr:-12deg; animation-delay:1.8s; font-size:16px; opacity:0.04">💋</span>
+  </div>
+
+  <!-- The burn book card -->
+  <div id="gate-book" class="gate-book">
+
+    <!-- Pink cover -->
+    <div class="gate-cover">
+      <div class="gate-cover-eyebrow">Amanda Fest 2026 · Members Only</div>
+
+      <div class="gate-cover-title">
+        <span class="cut cut-3" style="--r: -3deg">THE</span>
+        <span class="cut cut-2" style="--r:  2deg">BURN</span>
+        <span class="cut cut-1" style="--r: -1deg">BOOK</span>
+      </div>
+
+      <div class="gate-cover-sub">Amanda's Birthday Edition</div>
+      <div class="gate-cover-lips" aria-hidden="true">💋 💋 💋</div>
+    </div>
+
+    <!-- Notebook page with password field -->
+    <div class="gate-page">
+      <div class="gate-page-lines" aria-hidden="true"></div>
+      <div class="gate-page-content">
+        <p class="gate-page-label">Enter the secret code to get in, loser...</p>
+
+        <input
+          type="password"
+          id="gate-input"
+          class="gate-input"
+          placeholder="· · · · · · · · · ·"
+          autocomplete="off"
+          aria-label="Password"
+          maxlength="50"
+        >
+
+        <button id="gate-btn" class="gate-btn" type="button">
+          GET IN, LOSER →
+        </button>
+
+        <p id="gate-error" class="gate-error" role="alert" aria-live="assertive"></p>
+      </div>
+    </div>
+
+  </div><!-- /gate-book -->
+</div><!-- /gate -->
+
+<!-- Confetti container (populated by JS) -->
+<div id="confetti" aria-hidden="true"></div>
+
+<!-- ============================================================
+     MAIN SITE — hidden until password accepted
+============================================================ -->
+<main id="site" hidden>
+
+  <!-- ========================================================
+       SECTION 1: HERO
+  ======================================================== -->
+  <section id="hero" class="hero" aria-label="Hero">
+
+    <!-- Layered pink glitter background -->
+    <div class="hero-bg" aria-hidden="true"></div>
+
+    <!-- Ghost oversized text -->
+    <div class="hero-ghost" aria-hidden="true">BIRTHDAY</div>
+
+    <!-- Floating lips & stars -->
+    <div class="hero-deco" aria-hidden="true">
+      <span class="deco-lip lip-1">💋</span>
+      <span class="deco-lip lip-2">💋</span>
+      <span class="deco-lip lip-3">💋</span>
+      <span class="deco-lip lip-4">💋</span>
+      <span class="deco-star star-1">✦</span>
+      <span class="deco-star star-2">★</span>
+      <span class="deco-star star-3">✦</span>
+    </div>
+
+    <!-- Floating polaroid photos -->
+    <div class="hero-polaroids" aria-hidden="true">
+      <div class="hero-pol hp-1" style="--rot: -12deg">
+        <div class="hero-pol-tape" style="background:#0D0D0D"></div>
+        <div class="hero-pol-img" style="background: url('./photos/photo1.jpg') center/cover, linear-gradient(135deg,#E91E8C,#FF69B4)"></div>
+        <div class="hero-pol-caption">so iconic 💋</div>
+      </div>
+      <div class="hero-pol hp-2" style="--rot: 9deg">
+        <div class="hero-pol-tape" style="background:#E91E8C"></div>
+        <div class="hero-pol-img" style="background: url('./photos/photo2.jpg') center/cover, linear-gradient(135deg,#C2185B,#FF69B4)"></div>
+        <div class="hero-pol-caption">queen behaviour</div>
+      </div>
+      <div class="hero-pol hp-3" style="--rot: -6deg">
+        <div class="hero-pol-tape" style="background:#FFB6C1"></div>
+        <div class="hero-pol-img" style="background: url('./photos/photo3.jpg') center/cover, linear-gradient(135deg,#FF69B4,#FFB6C1)"></div>
+        <div class="hero-pol-caption">best day ever ✨</div>
+      </div>
+      <div class="hero-pol hp-4" style="--rot: 7deg">
+        <div class="hero-pol-tape" style="background:#C2185B"></div>
+        <div class="hero-pol-img" style="background: url('./photos/photo4.jpg') center/cover, linear-gradient(135deg,#0D0D0D,#C2185B)"></div>
+        <div class="hero-pol-caption">pure magic 🖤</div>
+      </div>
+    </div>
+
+    <!-- Main headline — ransom note style -->
+    <div class="hero-content">
+      <div class="hero-eyebrow reveal delay-1">✦ Amanda Fest 2026 ✦</div>
+
+      <div class="hero-headline reveal delay-2">
+        <div class="ransom-line">
+          <span class="cut cut-3" style="--r:-3deg">HAPPY</span>
+          <span class="cut cut-2" style="--r: 2deg">BIRTH</span>
+        </div>
+        <div class="ransom-line">
+          <span class="cut cut-1" style="--r:-1deg">DAY</span>
+          <span class="cut cut-4" style="--r: 1deg">A</span>
+          <span class="cut cut-5" style="--r:-2deg">MAN</span>
+          <span class="cut cut-6" style="--r: 3deg">DA</span>
+          <span class="cut cut-2" style="--r:-1deg">!</span>
+        </div>
+      </div>
+
+      <div class="hero-sub reveal delay-3">
+        "She's like really pretty." — everyone, always 💋
+      </div>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true">scroll ↓</div>
+  </section>
+
+  <!-- ========================================================
+       SECTION 2: THE STORY
+  ======================================================== -->
+  <section id="story" class="story" aria-label="Personal message">
+
+    <div class="story-lines" aria-hidden="true"></div>
+
+    <div class="story-inner">
+
+      <!-- Text column -->
+      <div class="story-text">
+        <div class="section-label reveal">
+          <span class="cut cut-2" style="--r:-1deg">PAGE</span>
+          <span class="cut cut-1" style="--r: 2deg">01</span>
+        </div>
+
+        <h2 class="story-heading reveal delay-1">
+          A little note<br>
+          <span class="story-heading-accent">from your people</span>
+        </h2>
+
+        <p class="story-body reveal delay-2">
+          Amanda — where do we even begin? You are one of the most genuinely wonderful humans we know, and today we get to shout about it. [Add your personal message about Amanda here — a favourite memory, an inside joke, something that makes her her.]
+        </p>
+
+        <p class="story-body reveal delay-3">
+          This website is a tiny love letter from everyone who adores you. Scroll through the memories, read the notes, and know that you are completely and utterly obsessed-with, in the best possible way. Happy birthday! 💋
+        </p>
+
+        <div class="story-sign reveal delay-4">— your people xo</div>
+      </div>
+
+      <!-- Polaroid scatter column -->
+      <div class="story-scatter" aria-label="Photo memories">
+        <div class="scatter-pol sp-1 reveal-right delay-1" style="--rot:-8deg">
+          <div class="scatter-tape" style="background:#E91E8C"></div>
+          <div class="scatter-pol-img" style="background: url('./photos/photo5.jpg') center/cover, linear-gradient(135deg,#E91E8C,#FF69B4)"></div>
+          <div class="scatter-pol-cap">pure magic ✦</div>
+        </div>
+        <div class="scatter-pol sp-2 reveal-right delay-2" style="--rot:6deg">
+          <div class="scatter-tape" style="background:#0D0D0D"></div>
+          <div class="scatter-pol-img" style="background: url('./photos/photo6.jpg') center/cover, linear-gradient(135deg,#C2185B,#0D0D0D)"></div>
+          <div class="scatter-pol-cap">iconic tbh 💋</div>
+        </div>
+        <div class="scatter-pol sp-3 reveal-right delay-3" style="--rot:4deg">
+          <div class="scatter-tape" style="background:#FFB6C1"></div>
+          <div class="scatter-pol-img" style="background: url('./photos/photo7.jpg') center/cover, linear-gradient(135deg,#FF69B4,#FFB6C1)"></div>
+          <div class="scatter-pol-cap">best vibes 🖤</div>
+        </div>
+        <div class="scatter-pol sp-4 reveal-right delay-4" style="--rot:-5deg">
+          <div class="scatter-tape" style="background:#C2185B"></div>
+          <div class="scatter-pol-img" style="background: url('./photos/photo8.jpg') center/cover, linear-gradient(135deg,#0D0D0D,#C2185B)"></div>
+          <div class="scatter-pol-cap">forever 💋</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SECTION 3: PHOTO WALL
+  ======================================================== -->
+  <section id="gallery" class="gallery" aria-label="Photo gallery">
+    <div class="gallery-inner">
+
+      <div class="gallery-header">
+        <div class="gallery-heading" role="heading" aria-level="2">
+          <span class="cut cut-3 reveal delay-1" style="--r:-2deg">THE</span>
+          <span class="cut cut-1 reveal delay-2" style="--r: 1deg">MEM</span>
+          <span class="cut cut-2 reveal delay-3" style="--r:-1deg">ORIES</span>
+        </div>
+        <p class="gallery-sub reveal delay-4">💋 tap any photo to enlarge 💋</p>
+      </div>
+
+      <!-- Populated by buildGallery() in app.js -->
+      <div id="gallery-grid" class="gallery-grid" role="list" aria-label="Photo polaroids"></div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SECTION 4: BIRTHDAY MESSAGES
+  ======================================================== -->
+  <section id="messages" class="messages" aria-label="Birthday messages">
+    <div class="messages-inner">
+
+      <div class="messages-header">
+        <div class="messages-heading" role="heading" aria-level="2">
+          <span class="cut cut-2 reveal delay-1" style="--r: 2deg">NOTES</span>
+          <span class="cut cut-4 reveal delay-2" style="--r:-1deg">FROM</span>
+          <span class="cut cut-1 reveal delay-3" style="--r: 3deg">THE</span>
+          <span class="cut cut-3 reveal delay-4" style="--r:-2deg">BURN</span>
+          <span class="cut cut-5 reveal delay-5" style="--r: 1deg">BOOK</span>
+        </div>
+        <p class="messages-sub reveal delay-6">(the nice version 🖤)</p>
+      </div>
+
+      <!-- Populated by buildMessages() in app.js -->
+      <div id="messages-grid" class="messages-grid"></div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       SECTION 5: CLOSING
+  ======================================================== -->
+  <section id="closing" class="closing" aria-label="Closing">
+
+    <!-- Floating lips -->
+    <div class="closing-deco" aria-hidden="true">
+      <span class="closing-lip cl-1">💋</span>
+      <span class="closing-lip cl-2">💋</span>
+      <span class="closing-lip cl-3">💋</span>
+      <span class="closing-lip cl-4">💋</span>
+    </div>
+
+    <div class="closing-content">
+
+      <!-- Top quote -->
+      <div class="closing-quote-wrap reveal">
+        <span class="cut cut-6" style="--r:-2deg">ON</span>
+        <span class="cut cut-3" style="--r: 1deg">WEDNESDAYS</span>
+        <span class="cut cut-6" style="--r:-1deg">WE</span>
+        <span class="cut cut-2" style="--r: 2deg">WEAR</span>
+        <span class="cut cut-1" style="--r:-2deg">PINK</span>
+      </div>
+
+      <!-- Main headline -->
+      <div class="closing-main-headline reveal delay-2">
+        <span class="cut cut-3" style="--r: 2deg">FOUR</span>
+        <span class="cut cut-1" style="--r:-1deg">FOR</span>
+        <span class="cut cut-6" style="--r: 3deg">YOU,</span>
+        <br>
+        <span class="cut cut-2" style="--r:-2deg">AMANDA</span>
+        <span class="cut cut-4" style="--r: 1deg">💋</span>
+      </div>
+
+      <p class="closing-sub reveal delay-3">You go, Amanda. You go.</p>
+
+      <!-- Footer tagline -->
+      <div class="closing-tagline reveal delay-4">
+        <span class="cut cut-1" style="--r:-1deg">AMANDA FEST 2026</span>
+        <span class="cut cut-3" style="--r: 1deg">ONE DAY ONLY</span>
+        <span class="cut cut-2" style="--r:-2deg">YOU'RE THE HEADLINER</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     LIGHTBOX
+============================================================ -->
+<div id="lightbox" class="lightbox" hidden aria-modal="true" role="dialog" aria-label="Photo enlarged view">
+  <div id="lb-backdrop" class="lightbox-backdrop"></div>
+  <div class="lightbox-content">
+    <button id="lb-close" class="lightbox-close" aria-label="Close photo">✕</button>
+    <div class="lightbox-polaroid">
+      <div id="lb-img" class="lightbox-img"></div>
+      <div id="lb-caption" class="lightbox-caption"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
