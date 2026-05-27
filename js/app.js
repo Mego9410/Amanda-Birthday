@@ -30,12 +30,12 @@ const TAPE_COLORS = ['#E91E8C','#0D0D0D','#C2185B','#FF69B4','#FFB6C1'];
 const ROTATIONS   = [-14,-8,11,-5,9,-12,6,-9,13,-4,8,-15,5,-10,7,-3];
 
 const MESSAGES = [
-  { from: '[Your Name]', text: 'Amanda — you are genuinely one of a kind. Every room you walk into is instantly better. Wishing you the most iconic birthday. Love you to bits! 💋',                                            icon: '💋' },
-  { from: '[Your Name]', text: 'To the funniest, most fabulous person I know — may your birthday be as extra as you are. You deserve every single good thing. Happy birthday! 🖤',                                            icon: '🖤' },
-  { from: '[Your Name]', text: 'You go, Amanda. You go. Seriously though — you are amazing and today is all about YOU. Can\'t wait to celebrate. Love you always! ✨',                                                       icon: '✨' },
-  { from: '[Your Name]', text: 'Happy birthday to the person who\'s like, really pretty, and also incredibly smart, hilarious, and kind. You\'re the whole package! 🌸',                                                    icon: '🌸' },
-  { from: '[Your Name]', text: 'On Wednesdays we wear pink — but every day we celebrate having Amanda in our lives. You are SO loved. Have the best day! 💗',                                                               icon: '💗' },
-  { from: '[Your Name]', text: 'The limit does not exist when it comes to how much we adore you. Here\'s to the most fetch birthday ever. You absolute queen! 👑',                                                          icon: '👑' },
+  { from: '[Your Name]', text: 'Amanda — <span class="redact">you are genuinely one of a kind. Every room you walk into is instantly better. Wishing you the most iconic birthday. Love you to bits!</span> 💋',                                            icon: '💋' },
+  { from: '[Your Name]', text: 'To the funniest, <span class="redact">most fabulous person I know — may your birthday be as extra as you are. You deserve every single good thing. Happy birthday!</span> 🖤',                                            icon: '🖤' },
+  { from: '[Your Name]', text: 'You go, <span class="redact">Amanda. You go. Seriously though — you are amazing and today is all about YOU. Can\'t wait to celebrate. Love you always!</span> ✨',                                                        icon: '✨' },
+  { from: '[Your Name]', text: 'Happy birthday <span class="redact">to the person who\'s like, really pretty, and also incredibly smart, hilarious, and kind. You\'re the whole package!</span> 🌸',                                                     icon: '🌸' },
+  { from: '[Your Name]', text: 'On Wednesdays <span class="redact">we wear pink — but every day we celebrate having Amanda in our lives. You are SO loved. Have the best day!</span> 💗',                                                                icon: '💗' },
+  { from: '[Your Name]', text: 'The limit <span class="redact">does not exist when it comes to how much we adore you. Here\'s to the most fetch birthday ever. You absolute queen!</span> 👑',                                                           icon: '👑' },
   { from: '[Your Name]', text: 'The party is at <span class="redact">The Venue, London</span> on <span class="redact">Saturday 15th March</span> from <span class="redact">7:30pm</span>. RSVP below by <span class="redact">1st March</span>. Can\'t wait! 🥂', icon: '📍', classified: true },
 ];
 
