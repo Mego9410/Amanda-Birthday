@@ -104,6 +104,19 @@
       font-size: 0.85rem;
       min-height: 20px;
     }
+    .gate-back {
+      display: inline-block;
+      margin-top: 4px;
+      color: rgba(0,0,0,0.55);
+      font-family: var(--f-oswald);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .gate-back:hover { color: var(--black); }
 
     /* ── Admin panel ── */
     #panel {
@@ -343,6 +356,7 @@
     <input type="password" id="gate-input" class="gate-input" placeholder="Admin password" autocomplete="off">
     <button id="gate-btn" class="gate-btn">Access RSVPs →</button>
     <p id="gate-error" class="gate-error"></p>
+    <a href="/" class="gate-back">← Back to the Burn Book</a>
   </div>
 </div>
 
