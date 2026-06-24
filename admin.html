@@ -118,7 +118,40 @@
       border-bottom: 2px solid rgba(233,30,140,0.3);
       padding-bottom: 24px;
       margin-bottom: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      flex-wrap: wrap;
     }
+    .panel-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .action-btn {
+      background: transparent;
+      border: 2px solid rgba(233,30,140,0.4);
+      border-radius: 4px;
+      color: var(--cream);
+      cursor: pointer;
+      font-family: var(--f-oswald);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      transition: border-color 0.15s, background 0.15s, color 0.15s, opacity 0.15s;
+      white-space: nowrap;
+    }
+    .action-btn:hover { border-color: var(--hot-pink); color: var(--hot-pink); }
+    .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .action-btn-primary {
+      background: var(--hot-pink);
+      border-color: var(--hot-pink);
+      color: #fff;
+    }
+    .action-btn-primary:hover { opacity: 0.85; color: #fff; }
     .panel-title {
       font-family: var(--f-oswald);
       font-size: clamp(1.6rem, 4vw, 2.5rem);
@@ -261,8 +294,14 @@
 <div id="loading">Loading…</div>
 <div id="panel">
   <div class="panel-header">
-    <div class="panel-title">The RSVP List 💋</div>
-    <div class="panel-sub">All submissions · newest first</div>
+    <div class="panel-header-text">
+      <div class="panel-title">The RSVP List 💋</div>
+      <div class="panel-sub">All submissions · newest first</div>
+    </div>
+    <div class="panel-actions">
+      <button id="export-btn" class="action-btn action-btn-primary">⬇ Export to Excel</button>
+      <button id="logout-btn" class="action-btn">Log out</button>
+    </div>
   </div>
 
   <div class="stats" id="stats"></div>
@@ -285,6 +324,7 @@
   </div>
 </div>
 
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
   const gateEl   = document.getElementById('gate');
   const inputEl  = document.getElementById('gate-input');
@@ -295,6 +335,10 @@
   const tbodyEl  = document.getElementById('rsvp-tbody');
   const statsEl  = document.getElementById('stats');
   const emptyEl  = document.getElementById('empty');
+  const exportEl = document.getElementById('export-btn');
+  const logoutEl = document.getElementById('logout-btn');
+
+  let _rsvps = [];
 
   async function tryLogin() {
     const key = inputEl.value.trim();
@@ -327,6 +371,8 @@
   }
 
   function renderPanel(rsvps) {
+    _rsvps = rsvps;
+    if (exportEl) exportEl.disabled = rsvps.length === 0;
     // Stats
     const total  = rsvps.length;
     const yes    = rsvps.filter(r => r.attending === 'yes').length;
@@ -378,8 +424,39 @@
     return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  function exportToExcel() {
+    if (!_rsvps.length) return;
+
+    const dataRows = _rsvps.map(r => ({
+      'Name':      r.full_name,
+      'Email':     r.email,
+      'Attending': r.attending,
+      'Quote / Message': r.quote,
+      'Dietary':   r.dietary || '',
+      'Submitted': new Date(r.created_at).toLocaleString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      }),
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(dataRows);
+    ws['!cols'] = [
+      { wch: 22 }, { wch: 28 }, { wch: 12 }, { wch: 50 }, { wch: 24 }, { wch: 20 },
+    ];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'RSVPs');
+    XLSX.writeFile(wb, 'amanda-birthday-rsvps.xlsx');
+  }
+
+  function logout() {
+    location.reload();
+  }
+
   btnEl.addEventListener('click', tryLogin);
   inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+  if (exportEl) exportEl.addEventListener('click', exportToExcel);
+  if (logoutEl) logoutEl.addEventListener('click', logout);
   inputEl.focus();
 </script>
 </body>
