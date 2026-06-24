@@ -205,13 +205,13 @@ const lbBackdropEl= document.getElementById('lb-backdrop');
 /* ============================================================
    PASSWORD GATE
 ============================================================ */
-const PASSWORD_FULL     = 'Amanda2026';
-const PASSWORD_REDACTED = '2026Amanda';
+const PASSWORDS_FULL     = ['Amanda2026', 'jasperpleasestopstaring'];
+const PASSWORDS_REDACTED = ['2026Amanda', 'TITSOAK'];
 
 function handlePasswordSubmit() {
   const val = inputEl.value.trim();
-  if (val === PASSWORD_FULL || val === PASSWORD_REDACTED) {
-    const mode = val === PASSWORD_FULL ? 'full' : 'redacted';
+  if (PASSWORDS_FULL.includes(val) || PASSWORDS_REDACTED.includes(val)) {
+    const mode = PASSWORDS_FULL.includes(val) ? 'full' : 'redacted';
     launchConfetti();
     gateEl.classList.add('exiting');
     setTimeout(() => {
