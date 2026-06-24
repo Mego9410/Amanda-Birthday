@@ -62,18 +62,6 @@ const lbBackdropEl= document.getElementById('lb-backdrop');
 const PASSWORD_FULL     = 'Amanda2026';
 const PASSWORD_REDACTED = '2026Amanda';
 
-/* ── Supabase ── replace these two values with your project credentials ──
-   Dashboard → Project Settings → API
-   ─────────────────────────────────────────────────────────────────────── */
-const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';
-
-let _supabase = null;
-function getSupabase() {
-  if (!_supabase) _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-  return _supabase;
-}
-
 function handlePasswordSubmit() {
   const val = inputEl.value.trim();
   if (val === PASSWORD_FULL || val === PASSWORD_REDACTED) {
@@ -92,7 +80,7 @@ function handlePasswordSubmit() {
         initScrollReveal();
         initParallax();
         initRSVP();
-        if (mode === 'full') loadBurnBookEntries();
+        if (mode === 'full') { loadBurnBookEntries(); startBurnBookPolling(); }
       }));
     }, 800);
   } else {
@@ -361,30 +349,27 @@ function buildMessages() {
 }
 
 /* ============================================================
-   BURN BOOK — live entries from Supabase
+   BURN BOOK — live entries via API polling
 ============================================================ */
-let _lastInsertId = null; // prevents double-render for the submitting guest
+const _shownEntryIds = new Set();
 
 async function loadBurnBookEntries() {
-  const sb = getSupabase();
+  try {
+    const res = await fetch('/api/entries');
+    if (!res.ok) return;
+    const { entries } = await res.json();
+    (entries || []).forEach(row => {
+      if (_shownEntryIds.has(row.id)) return;
+      _shownEntryIds.add(row.id);
+      addBurnBookMessage(row.full_name, row.quote);
+    });
+  } catch (e) {
+    console.error('Failed to load burn book entries:', e);
+  }
+}
 
-  // 1. Fetch all existing entries and append them to the grid
-  const { data } = await sb
-    .from('burn_book_entries')
-    .select('id, full_name, quote')
-    .order('created_at', { ascending: true });
-
-  (data || []).forEach(row => addBurnBookMessage(row.full_name, row.quote));
-
-  // 2. Subscribe: any new insert from any guest appears in real time
-  sb.channel('burn_book_live')
-    .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'burn_book_entries' },
-        ({ new: row }) => {
-          if (row.id === _lastInsertId) return; // already shown optimistically
-          addBurnBookMessage(row.full_name, row.quote);
-        })
-    .subscribe();
+function startBurnBookPolling() {
+  setInterval(loadBurnBookEntries, 30000);
 }
 
 /* ============================================================
@@ -419,21 +404,26 @@ function initRSVP() {
     if (!attending) { showRSVPError('Please select whether you\'re coming.'); return; }
     if (!quote)     { showRSVPError('Please share a memory or message for Amanda.'); return; }
     setLoading(true);
-    const sb = getSupabase();
-    const [rsvpRes, entryRes] = await Promise.all([
-      sb.from('rsvps').insert({ full_name: name, email, attending, dietary: dietary || null, quote }),
-      sb.from('burn_book_entries').insert({ full_name: name, quote }).select('id').single(),
-    ]);
-    setLoading(false);
-    if (rsvpRes.error || entryRes.error) {
+    let resData;
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name: name, email, attending, dietary: dietary || null, quote }),
+      });
+      resData = await res.json();
+      if (!res.ok) throw new Error(resData.error || 'Server error');
+    } catch (err) {
+      setLoading(false);
       showRSVPError('Something went wrong — please try again.');
-      console.error(rsvpRes.error || entryRes.error);
+      console.error(err);
       return;
     }
+    setLoading(false);
     form.hidden = true;
     successEl.hidden = false;
-    // Optimistic: show immediately; realtime deduplicates by id
-    _lastInsertId = entryRes.data?.id ?? null;
+    // Mark as shown so the 30s poll doesn't duplicate it
+    if (resData.id) _shownEntryIds.add(resData.id);
     addBurnBookMessage(name, quote);
     setTimeout(() => {
       document.getElementById('messages')?.scrollIntoView({ behavior: 'smooth', block: 'start' });

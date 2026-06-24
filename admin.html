@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burn Book — Admin 💋</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --hot-pink: #E91E8C;
+      --deep-pink: #C2185B;
+      --black: #0D0D0D;
+      --cream: #FAF0E6;
+      --f-oswald: 'Oswald', sans-serif;
+      --f-playfair: 'Playfair Display', serif;
+      --f-special: 'Special Elite', cursive;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--f-playfair);
+      min-height: 100vh;
+    }
+
+    /* ── Gate ── */
+    #gate {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--black);
+      z-index: 100;
+      padding: 16px;
+    }
+    #gate.hidden { display: none; }
+
+    .gate-card {
+      background: var(--hot-pink);
+      border-radius: 4px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(233,30,140,0.4);
+    }
+    .gate-title {
+      font-family: var(--f-oswald);
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+    .gate-sub {
+      font-family: var(--f-special);
+      font-size: 0.85rem;
+      color: rgba(0,0,0,0.6);
+      margin-bottom: 28px;
+    }
+    .gate-input {
+      width: 100%;
+      background: rgba(0,0,0,0.15);
+      border: 2px solid rgba(0,0,0,0.2);
+      border-radius: 4px;
+      color: var(--black);
+      font-family: var(--f-oswald);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      padding: 12px 16px;
+      outline: none;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .gate-input:focus { border-color: var(--black); }
+    .gate-input::placeholder { color: rgba(0,0,0,0.35); letter-spacing: 1px; }
+    .gate-btn {
+      width: 100%;
+      background: var(--black);
+      border: none;
+      border-radius: 4px;
+      color: var(--cream);
+      cursor: pointer;
+      font-family: var(--f-oswald);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      padding: 13px 24px;
+      text-transform: uppercase;
+      transition: opacity 0.15s;
+    }
+    .gate-btn:hover { opacity: 0.8; }
+    .gate-error {
+      margin-top: 12px;
+      color: var(--black);
+      font-family: var(--f-special);
+      font-size: 0.85rem;
+      min-height: 20px;
+    }
+
+    /* ── Admin panel ── */
+    #panel {
+      display: none;
+      padding: 48px 24px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    #panel.visible { display: block; }
+
+    .panel-header {
+      border-bottom: 2px solid rgba(233,30,140,0.3);
+      padding-bottom: 24px;
+      margin-bottom: 36px;
+    }
+    .panel-title {
+      font-family: var(--f-oswald);
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+    }
+    .panel-sub {
+      font-family: var(--f-special);
+      color: rgba(250,240,230,0.5);
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(233,30,140,0.2);
+      border-radius: 6px;
+      padding: 20px 28px;
+      min-width: 130px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--f-oswald);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--hot-pink);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--f-oswald);
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(250,240,230,0.5);
+      margin-top: 6px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    thead {
+      background: rgba(233,30,140,0.12);
+    }
+    th {
+      font-family: var(--f-oswald);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--hot-pink);
+      padding: 14px 16px;
+      text-align: left;
+      white-space: nowrap;
+    }
+    td {
+      padding: 14px 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--cream);
+      vertical-align: top;
+    }
+    tr:hover td { background: rgba(255,255,255,0.025); }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--f-oswald);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .badge-yes   { background: rgba(46,213,115,0.15); color: #2ED573; }
+    .badge-no    { background: rgba(255,71,87,0.15);  color: #FF4757; }
+    .badge-maybe { background: rgba(255,165,0,0.15);  color: #FFA500; }
+
+    .quote-cell {
+      font-style: italic;
+      color: rgba(250,240,230,0.75);
+      max-width: 300px;
+    }
+    .dietary-cell {
+      color: rgba(250,240,230,0.5);
+      font-size: 0.82rem;
+    }
+    .date-cell {
+      font-size: 0.78rem;
+      color: rgba(250,240,230,0.4);
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: rgba(250,240,230,0.3);
+      font-family: var(--f-special);
+      font-size: 1rem;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 80px 20px;
+      font-family: var(--f-oswald);
+      letter-spacing: 3px;
+      color: rgba(250,240,230,0.3);
+      display: none;
+    }
+    #loading.visible { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Password gate -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-title">ADMIN 💋</div>
+    <div class="gate-sub">Burn Book — members only</div>
+    <input type="password" id="gate-input" class="gate-input" placeholder="Admin password" autocomplete="off">
+    <button id="gate-btn" class="gate-btn">Access RSVPs →</button>
+    <p id="gate-error" class="gate-error"></p>
+  </div>
+</div>
+
+<!-- Admin panel -->
+<div id="loading">Loading…</div>
+<div id="panel">
+  <div class="panel-header">
+    <div class="panel-title">The RSVP List 💋</div>
+    <div class="panel-sub">All submissions · newest first</div>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Attending</th>
+          <th>Quote / Message</th>
+          <th>Dietary</th>
+          <th>Submitted</th>
+        </tr>
+      </thead>
+      <tbody id="rsvp-tbody"></tbody>
+    </table>
+    <div id="empty" class="empty-state" hidden>No RSVPs yet — check back soon 💋</div>
+  </div>
+</div>
+
+<script>
+  const gateEl   = document.getElementById('gate');
+  const inputEl  = document.getElementById('gate-input');
+  const btnEl    = document.getElementById('gate-btn');
+  const errorEl  = document.getElementById('gate-error');
+  const panelEl  = document.getElementById('panel');
+  const loadEl   = document.getElementById('loading');
+  const tbodyEl  = document.getElementById('rsvp-tbody');
+  const statsEl  = document.getElementById('stats');
+  const emptyEl  = document.getElementById('empty');
+
+  async function tryLogin() {
+    const key = inputEl.value.trim();
+    if (!key) return;
+
+    btnEl.disabled = true;
+    btnEl.textContent = 'Checking…';
+    errorEl.textContent = '';
+
+    try {
+      const res  = await fetch(`/api/admin?key=${encodeURIComponent(key)}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        errorEl.textContent = 'Wrong password, loser. 💋';
+        btnEl.disabled = false;
+        btnEl.textContent = 'Access RSVPs →';
+        inputEl.value = '';
+        inputEl.focus();
+        return;
+      }
+
+      gateEl.classList.add('hidden');
+      renderPanel(data.rsvps || []);
+    } catch (e) {
+      errorEl.textContent = 'Network error — try again.';
+      btnEl.disabled = false;
+      btnEl.textContent = 'Access RSVPs →';
+    }
+  }
+
+  function renderPanel(rsvps) {
+    // Stats
+    const total  = rsvps.length;
+    const yes    = rsvps.filter(r => r.attending === 'yes').length;
+    const no     = rsvps.filter(r => r.attending === 'no').length;
+    const maybe  = rsvps.filter(r => r.attending === 'maybe').length;
+
+    statsEl.innerHTML = [
+      { num: total,  label: 'Total RSVPs' },
+      { num: yes,    label: 'Coming 🥂'   },
+      { num: maybe,  label: 'Maybe 🤔'    },
+      { num: no,     label: 'Not coming 😭' },
+    ].map(s => `
+      <div class="stat-card">
+        <div class="stat-num">${s.num}</div>
+        <div class="stat-label">${s.label}</div>
+      </div>
+    `).join('');
+
+    if (total === 0) {
+      emptyEl.hidden = false;
+    } else {
+      tbodyEl.innerHTML = rsvps.map(r => {
+        const date = new Date(r.created_at).toLocaleString('en-GB', {
+          day: 'numeric', month: 'short', year: 'numeric',
+          hour: '2-digit', minute: '2-digit',
+        });
+        const attendBadge = `<span class="badge badge-${r.attending}">${r.attending}</span>`;
+        const dietary = r.dietary
+          ? `<span class="dietary-cell">${escHtml(r.dietary)}</span>`
+          : '<span style="opacity:0.25">—</span>';
+
+        return `
+          <tr>
+            <td>${escHtml(r.full_name)}</td>
+            <td><a href="mailto:${escHtml(r.email)}" style="color:var(--hot-pink);text-decoration:none">${escHtml(r.email)}</a></td>
+            <td>${attendBadge}</td>
+            <td class="quote-cell">${escHtml(r.quote)}</td>
+            <td>${dietary}</td>
+            <td class="date-cell">${date}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    panelEl.classList.add('visible');
+  }
+
+  function escHtml(str) {
+    return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  btnEl.addEventListener('click', tryLogin);
+  inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+  inputEl.focus();
+</script>
+</body>
+</html>
