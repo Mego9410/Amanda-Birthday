@@ -353,11 +353,14 @@ function initParallax() {
 /* ============================================================
    GALLERY BUILDER
 ============================================================ */
+const GALLERY_LIMIT = 20; // random subset shown per load — cycles across refreshes
+
 function buildGallery() {
   const grid = document.getElementById('gallery-grid');
   if (!grid) return;
 
-  PHOTOS.forEach((p, i) => {
+  // PHOTOS is already shuffled, so the first N is a fresh random subset.
+  PHOTOS.slice(0, GALLERY_LIMIT).forEach((p, i) => {
     const rot  = ROTATIONS[i % ROTATIONS.length];
     const tape = TAPE_COLORS[i % TAPE_COLORS.length];
 
