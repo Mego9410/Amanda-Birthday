@@ -389,6 +389,25 @@ button { cursor: pointer; border: none; background: none; }
   font-weight: 700;
 }
 
+.gate-admin-link {
+  position: absolute;
+  bottom: 16px;
+  right: 18px;
+  z-index: 2;
+  font-family: var(--f-oswald);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.15);
+  transition: color 0.25s;
+}
+.gate-admin-link:hover,
+.gate-admin-link:focus-visible {
+  color: var(--hot-pink);
+  outline: none;
+}
+
 @keyframes gate-shake {
   0%, 100% { transform: translateX(0); }
   15%       { transform: translateX(-10px); }
