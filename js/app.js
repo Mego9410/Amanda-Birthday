@@ -183,7 +183,7 @@ const MESSAGES = [
   { from: '[Your Name]', text: 'Happy birthday to the person who\'s like, really <span class="redact">pretty</span>, and also incredibly <span class="redact">smart, hilarious</span>, and kind. You\'re <span class="redact">the whole package</span>! 🌸',                                        icon: '🌸' },
   { from: '[Your Name]', text: 'On Wednesdays we wear pink — but every day we celebrate <span class="redact">having Amanda in our lives</span>. You are SO <span class="redact">loved</span>. Have the <span class="redact">best day</span>! 💗',                                                   icon: '💗' },
   { from: '[Your Name]', text: 'The limit does not exist when it comes to how much we <span class="redact">adore you</span>. Here\'s to the most <span class="redact">fetch</span> birthday ever. You absolute <span class="redact">queen</span>! 👑',                                              icon: '👑' },
-  { from: '[Your Name]', text: 'The party is at <span class="redact">The Venue, London</span> on <span class="redact">Saturday 15th March</span> from <span class="redact">7:30pm</span>. RSVP below by <span class="redact">1st March</span>. Can\'t wait! 🥂', icon: '📍', classified: true },
+  { from: '[Your Name]', text: 'The party is at <span class="redact">The Venue, London</span> on <span class="redact">Saturday 15th March</span> from <span class="redact">7:30pm</span>. RSVP by <span class="redact">1st March</span>. Can\'t wait! 🥂', icon: '📍', classified: true },
 ];
 
 /* ============================================================

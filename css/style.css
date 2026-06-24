@@ -746,6 +746,16 @@ button { cursor: pointer; border: none; background: none; }
   max-width: 480px;
 }
 
+.story-poem {
+  font-family: var(--f-playfair);
+  font-style: italic;
+  font-size: clamp(15px, 2.2vw, 19px);
+  line-height: 2;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 18px;
+  max-width: 480px;
+}
+
 .story-sign {
   font-family: var(--f-dancing);
   font-size: clamp(20px, 3.5vw, 28px);
@@ -1274,19 +1284,24 @@ button { cursor: pointer; border: none; background: none; }
   pointer-events: none;
 }
 
-[data-mode="redacted"] .story::before {
+[data-mode="redacted"] .rsvp {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-mode="redacted"] .rsvp::before {
   content: 'CLASSIFIED';
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(-28deg);
+  transform: translate(-50%, -50%) rotate(-12deg);
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(48px, 10vw, 110px);
+  font-size: clamp(40px, 9vw, 90px);
   font-weight: 700;
-  letter-spacing: 10px;
-  color: rgba(233,30,140,0.06);
-  border: 6px solid rgba(233,30,140,0.06);
-  padding: 10px 24px;
+  letter-spacing: 8px;
+  color: rgba(233,30,140,0.07);
+  border: 5px solid rgba(233,30,140,0.07);
+  padding: 8px 20px;
   pointer-events: none;
   z-index: 2;
   white-space: nowrap;
@@ -1318,7 +1333,15 @@ button { cursor: pointer; border: none; background: none; }
 /* ============================================================
    RSVP
 ============================================================ */
-[data-mode="redacted"] .rsvp { display: none; }
+/* Redacted mode: party details stay as a blacked-out teaser; the form,
+   map and headings are hidden until the full password is used. */
+[data-mode="redacted"] .rsvp-heading,
+[data-mode="redacted"] .rsvp-sub,
+[data-mode="redacted"] .rsvp-form,
+[data-mode="redacted"] .event-map,
+[data-mode="redacted"] #rsvp-success { display: none; }
+
+[data-mode="redacted"] .event-info { grid-template-columns: 1fr; }
 
 .rsvp { padding: clamp(50px, 7vw, 80px) 0 clamp(30px, 4vw, 50px); }
 
