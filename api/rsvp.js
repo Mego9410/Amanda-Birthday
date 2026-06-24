@@ -1,4 +1,4 @@
-const { sql } = require('@vercel/postgres');
+const { db } = require('@vercel/postgres');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -14,21 +14,27 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid attending value' });
   }
 
+  const client = await db.connect();
   try {
-    await sql`
-      INSERT INTO rsvps (full_name, email, attending, dietary, quote)
-      VALUES (${full_name}, ${email}, ${attending}, ${dietary || null}, ${quote})
-    `;
+    await client.query('BEGIN');
 
-    const { rows } = await sql`
-      INSERT INTO burn_book_entries (full_name, quote)
-      VALUES (${full_name}, ${quote})
-      RETURNING id
-    `;
+    await client.query(
+      'INSERT INTO rsvps (full_name, email, attending, dietary, quote) VALUES ($1, $2, $3, $4, $5)',
+      [full_name, email, attending, dietary || null, quote]
+    );
 
+    const { rows } = await client.query(
+      'INSERT INTO burn_book_entries (full_name, quote) VALUES ($1, $2) RETURNING id',
+      [full_name, quote]
+    );
+
+    await client.query('COMMIT');
     return res.status(200).json({ id: rows[0].id });
   } catch (err) {
+    await client.query('ROLLBACK').catch(() => {});
     console.error('RSVP error:', err);
     return res.status(500).json({ error: 'Database error' });
+  } finally {
+    client.release();
   }
 };
