@@ -337,7 +337,7 @@ function buildMessages() {
 
   MESSAGES.forEach(m => {
     const card = document.createElement('div');
-    card.className = 'msg-card reveal' + (m.classified ? ' classified' : '');
+    card.className = 'msg-card reveal msg-placeholder' + (m.classified ? ' classified' : '');
     card.innerHTML = `
       <div class="msg-card-accent"></div>
       <span class="msg-icon">${m.icon}</span>
@@ -358,6 +358,10 @@ async function loadBurnBookEntries() {
     const res = await fetch('/api/entries');
     if (!res.ok) return;
     const { entries } = await res.json();
+    // Once the first real memory is approved, clear the placeholder notes.
+    if (entries && entries.length) {
+      document.querySelectorAll('#messages-grid .msg-placeholder').forEach(el => el.remove());
+    }
     (entries || []).forEach(row => {
       if (_shownEntryIds.has(row.id)) return;
       _shownEntryIds.add(row.id);
@@ -422,12 +426,9 @@ function initRSVP() {
     setLoading(false);
     form.hidden = true;
     successEl.hidden = false;
-    // Mark as shown so the 30s poll doesn't duplicate it
-    if (resData.id) _shownEntryIds.add(resData.id);
-    addBurnBookMessage(name, quote);
-    setTimeout(() => {
-      document.getElementById('messages')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 1800);
+    // Memory is now pending admin approval — it will appear in the Burn
+    // Book once approved (picked up by the 30s poll), so nothing is shown
+    // optimistically here.
   });
 
   function showRSVPError(msg) {

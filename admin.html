@@ -266,6 +266,62 @@
       font-size: 1rem;
     }
 
+    /* ── Approve toggle switch ── */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 26px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 26px;
+      transition: background 0.2s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: var(--cream);
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    .switch input:checked + .slider {
+      background: var(--hot-pink);
+      border-color: var(--hot-pink);
+    }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+    .switch input:disabled + .slider { opacity: 0.4; cursor: not-allowed; }
+
+    /* Dim rows that aren't shown publicly */
+    tr.is-hidden td:not(:first-child):not(:last-child) { opacity: 0.45; }
+
+    /* ── Delete button ── */
+    .del-btn {
+      background: transparent;
+      border: 1px solid rgba(255,71,87,0.4);
+      border-radius: 4px;
+      color: #FF4757;
+      cursor: pointer;
+      font-family: var(--f-oswald);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .del-btn:hover { background: #FF4757; color: #fff; }
+
     #loading {
       text-align: center;
       padding: 80px 20px;
@@ -310,12 +366,14 @@
     <table>
       <thead>
         <tr>
+          <th>Show in<br>Burn Book</th>
           <th>Name</th>
           <th>Email</th>
           <th>Attending</th>
           <th>Quote / Message</th>
           <th>Dietary</th>
           <th>Submitted</th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="rsvp-tbody"></tbody>
@@ -339,6 +397,7 @@
   const logoutEl = document.getElementById('logout-btn');
 
   let _rsvps = [];
+  let _adminKey = '';
 
   async function tryLogin() {
     const key = inputEl.value.trim();
@@ -361,6 +420,7 @@
         return;
       }
 
+      _adminKey = key;
       gateEl.classList.add('hidden');
       renderPanel(data.rsvps || []);
     } catch (e) {
@@ -391,31 +451,35 @@
       </div>
     `).join('');
 
-    if (total === 0) {
-      emptyEl.hidden = false;
-    } else {
-      tbodyEl.innerHTML = rsvps.map(r => {
-        const date = new Date(r.created_at).toLocaleString('en-GB', {
-          day: 'numeric', month: 'short', year: 'numeric',
-          hour: '2-digit', minute: '2-digit',
-        });
-        const attendBadge = `<span class="badge badge-${r.attending}">${r.attending}</span>`;
-        const dietary = r.dietary
-          ? `<span class="dietary-cell">${escHtml(r.dietary)}</span>`
-          : '<span style="opacity:0.25">—</span>';
+    emptyEl.hidden = total !== 0;
+    tbodyEl.innerHTML = total === 0 ? '' : rsvps.map(r => {
+      const date = new Date(r.created_at).toLocaleString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      });
+      const attendBadge = `<span class="badge badge-${r.attending}">${r.attending}</span>`;
+      const dietary = r.dietary
+        ? `<span class="dietary-cell">${escHtml(r.dietary)}</span>`
+        : '<span style="opacity:0.25">—</span>';
 
-        return `
-          <tr>
-            <td>${escHtml(r.full_name)}</td>
-            <td><a href="mailto:${escHtml(r.email)}" style="color:var(--hot-pink);text-decoration:none">${escHtml(r.email)}</a></td>
-            <td>${attendBadge}</td>
-            <td class="quote-cell">${escHtml(r.quote)}</td>
-            <td>${dietary}</td>
-            <td class="date-cell">${date}</td>
-          </tr>
-        `;
-      }).join('');
-    }
+      return `
+        <tr class="${r.approved ? '' : 'is-hidden'}">
+          <td style="text-align:center">
+            <label class="switch" title="Show this memory in the Burn Book">
+              <input type="checkbox" class="approve-toggle" data-id="${r.id}" ${r.approved ? 'checked' : ''}>
+              <span class="slider"></span>
+            </label>
+          </td>
+          <td>${escHtml(r.full_name)}</td>
+          <td><a href="mailto:${escHtml(r.email)}" style="color:var(--hot-pink);text-decoration:none">${escHtml(r.email)}</a></td>
+          <td>${attendBadge}</td>
+          <td class="quote-cell">${escHtml(r.quote)}</td>
+          <td>${dietary}</td>
+          <td class="date-cell">${date}</td>
+          <td><button class="del-btn" data-id="${r.id}">🗑 Delete</button></td>
+        </tr>
+      `;
+    }).join('');
 
     panelEl.classList.add('visible');
   }
@@ -432,6 +496,7 @@
       'Email':     r.email,
       'Attending': r.attending,
       'Quote / Message': r.quote,
+      'Shown in Burn Book': r.approved ? 'Yes' : 'No',
       'Dietary':   r.dietary || '',
       'Submitted': new Date(r.created_at).toLocaleString('en-GB', {
         day: 'numeric', month: 'short', year: 'numeric',
@@ -441,7 +506,7 @@
 
     const ws = XLSX.utils.json_to_sheet(dataRows);
     ws['!cols'] = [
-      { wch: 22 }, { wch: 28 }, { wch: 12 }, { wch: 50 }, { wch: 24 }, { wch: 20 },
+      { wch: 22 }, { wch: 28 }, { wch: 12 }, { wch: 50 }, { wch: 16 }, { wch: 24 }, { wch: 20 },
     ];
 
     const wb = XLSX.utils.book_new();
@@ -452,6 +517,42 @@
   function logout() {
     location.reload();
   }
+
+  async function applyAdminAction(action, id, toggleEl) {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key: _adminKey, action, id }),
+      });
+      if (!res.ok) throw new Error('Action failed');
+
+      if (action === 'delete') {
+        _rsvps = _rsvps.filter(r => r.id !== id);
+      } else {
+        const r = _rsvps.find(x => x.id === id);
+        if (r) r.approved = (action === 'approve');
+      }
+      renderPanel(_rsvps);
+    } catch (e) {
+      alert('Something went wrong — please try again.');
+      if (toggleEl) toggleEl.checked = !toggleEl.checked; // revert the flip
+    }
+  }
+
+  // Event delegation — survives table re-renders
+  tbodyEl.addEventListener('change', e => {
+    if (e.target.classList.contains('approve-toggle')) {
+      const id = e.target.dataset.id;
+      applyAdminAction(e.target.checked ? 'approve' : 'unapprove', id, e.target);
+    }
+  });
+  tbodyEl.addEventListener('click', e => {
+    const btn = e.target.closest('.del-btn');
+    if (btn && confirm('Delete this RSVP permanently? This cannot be undone.')) {
+      applyAdminAction('delete', btn.dataset.id);
+    }
+  });
 
   btnEl.addEventListener('click', tryLogin);
   inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });

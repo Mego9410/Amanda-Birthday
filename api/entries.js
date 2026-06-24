@@ -7,8 +7,9 @@ module.exports = async function handler(req, res) {
 
   const client = await db.connect();
   try {
+    // Only memories the admin has approved appear publicly.
     const { rows } = await client.query(
-      'SELECT id, full_name, quote FROM burn_book_entries ORDER BY created_at ASC'
+      'SELECT id, full_name, quote FROM rsvps WHERE approved = TRUE ORDER BY created_at ASC'
     );
     return res.status(200).json({ entries: rows });
   } catch (err) {
