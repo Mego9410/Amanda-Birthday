@@ -7,24 +7,76 @@
 /* ============================================================
    PHOTO + MESSAGE CONFIG
 ============================================================ */
-const PHOTOS = [
-  { file: 'photo1.jpg',  caption: 'laugh out loud 💋',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)' },
-  { file: 'photo2.jpg',  caption: 'karaoke queens 🎤',        grad: 'linear-gradient(135deg,#C2185B,#E91E8C)' },
-  { file: 'photo3.jpg',  caption: 'the dress 👰',             grad: 'linear-gradient(135deg,#FFB6C1,#FF69B4)' },
-  { file: 'photo4.jpg',  caption: 'moustache moment 🥸',      grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)' },
-  { file: 'photo5.jpg',  caption: 'crowned 👑',               grad: 'linear-gradient(135deg,#E91E8C,#FFB6C1)' },
-  { file: 'photo6.jpg',  caption: 'auntie vibes 🍼',          grad: 'linear-gradient(135deg,#FF69B4,#C2185B)' },
-  { file: 'photo7.jpg',  caption: 'camden nights 🖤',         grad: 'linear-gradient(135deg,#0D0D0D,#E91E8C)' },
-  { file: 'photo8.jpg',  caption: 'underworld era 🕶️',       grad: 'linear-gradient(135deg,#C2185B,#0D0D0D)' },
-  { file: 'photo9.jpg',  caption: 'spooky szn 🎃',            grad: 'linear-gradient(135deg,#E91E8C,#C2185B)' },
-  { file: 'photo10.jpg', caption: 'legoland szn 🧱',          grad: 'linear-gradient(135deg,#FFB6C1,#E91E8C)' },
-  { file: 'photo11.jpg', caption: 'hen do ☕',                grad: 'linear-gradient(135deg,#FF69B4,#FFB6C1)' },
-  { file: 'photo12.jpg', caption: 'main character 🎤',        grad: 'linear-gradient(135deg,#E91E8C,#FF69B4)' },
-  { file: 'photo13.jpg', caption: 'theme park gang 💦',       grad: 'linear-gradient(135deg,#0D0D0D,#FF69B4)' },
-  { file: 'photo14.jpg', caption: 'bride to be 💍',           grad: 'linear-gradient(135deg,#C2185B,#FFB6C1)' },
-  { file: 'photo15.jpg', caption: 'disneyland paris 🏰',      grad: 'linear-gradient(135deg,#FF69B4,#E91E8C)' },
-  { file: 'photo16.jpg', caption: 'emo night forever 🖤',     grad: 'linear-gradient(135deg,#0D0D0D,#C2185B)' },
+/* Photos are discovered at runtime from /api/photos and reshuffled on
+   every page load, so the site cycles through whatever is in the photos
+   folder. Captions are pulled at random from the Burn Book pool below. */
+let PHOTOS = [];
+
+const CAPTION_POOL = [
+  'so fetch 💋', 'iconic 👑', 'main character ✨', 'certified baddie 🖤',
+  'she\'s a 10 💅', 'pink rules 💗', 'legend 🥂', 'the moment 📸',
+  'unbothered 💋', 'too glam 💄', 'pure vibes 🔥', 'queen behaviour 👑',
+  'flawless ✨', 'no notes 💯', 'iconic only 💋', 'serving looks 💃',
+  'a whole snack 🍒', 'that girl 🌸', 'mood forever 🖤', 'limit does not exist ➗',
 ];
+
+const GRAD_POOL = [
+  'linear-gradient(135deg,#E91E8C,#FF69B4)',
+  'linear-gradient(135deg,#C2185B,#E91E8C)',
+  'linear-gradient(135deg,#FFB6C1,#FF69B4)',
+  'linear-gradient(135deg,#0D0D0D,#C2185B)',
+  'linear-gradient(135deg,#E91E8C,#FFB6C1)',
+  'linear-gradient(135deg,#FF69B4,#C2185B)',
+  'linear-gradient(135deg,#0D0D0D,#E91E8C)',
+];
+
+const FALLBACK_PHOTOS = Array.from({ length: 16 }, (_, i) => `photo${i + 1}.jpg`);
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Turn a list of filenames into shuffled photo objects with random captions.
+function buildPhotoObjects(files) {
+  const shuffledFiles = shuffle(files);
+  const shuffledCaps  = shuffle(CAPTION_POOL);
+  return shuffledFiles.map((file, i) => ({
+    file,
+    caption: shuffledCaps[i % shuffledCaps.length],
+    grad:    GRAD_POOL[i % GRAD_POOL.length],
+  }));
+}
+
+let _photosReady = false;
+async function ensurePhotos() {
+  if (_photosReady) return;
+  let files = [];
+  try {
+    const res = await fetch('/api/photos');
+    if (res.ok) files = (await res.json()).photos || [];
+  } catch (e) { /* fall through to fallback */ }
+  if (!files.length) files = FALLBACK_PHOTOS;
+  PHOTOS = buildPhotoObjects(files);
+  _photosReady = true;
+}
+
+// Override the hardcoded hero / scatter polaroids with shuffled photos.
+function decoratePhotoEls(imgSel, capSel, photos, offset = 0) {
+  if (!photos.length) return;
+  document.querySelectorAll(imgSel).forEach((el, i) => {
+    const p = photos[(i + offset) % photos.length];
+    el.style.background = `url('./photos/${p.file}') center/cover, ${p.grad}`;
+  });
+  document.querySelectorAll(capSel).forEach((el, i) => {
+    const p = photos[(i + offset) % photos.length];
+    el.textContent = p.caption;
+  });
+}
 
 const TAPE_COLORS = ['#E91E8C','#0D0D0D','#C2185B','#FF69B4','#FFB6C1'];
 const ROTATIONS   = [-14,-8,11,-5,9,-12,6,-9,13,-4,8,-15,5,-10,7,-3];
@@ -72,8 +124,11 @@ function handlePasswordSubmit() {
       gateEl.hidden = true;
       siteEl.dataset.mode = mode;
       siteEl.hidden = false;
-      requestAnimationFrame(() => requestAnimationFrame(() => {
+      requestAnimationFrame(() => requestAnimationFrame(async () => {
+        await ensurePhotos();
         splitWords();
+        decoratePhotoEls('.hero-polaroids .hero-pol-img', '.hero-polaroids .hero-pol-caption', PHOTOS, 0);
+        decoratePhotoEls('.story-scatter .scatter-pol-img', '.story-scatter .scatter-pol-cap', PHOTOS, 4);
         buildGallery();
         buildMessages();
         buildHeroCollage();
@@ -507,7 +562,8 @@ function buildHeroCollage() {
   const container = document.getElementById('hero-collage');
   if (!container) return;
 
-  PHOTOS.forEach((p, i) => {
+  // Use a random subset sized to the available collage positions.
+  PHOTOS.slice(0, HERO_COL_POS.length).forEach((p, i) => {
     const pos     = HERO_COL_POS[i];
     const tape    = TAPE_COLORS[i % TAPE_COLORS.length];
     const tapeRot = HC_TAPE_ROTS[i % HC_TAPE_ROTS.length];
@@ -554,4 +610,5 @@ document.addEventListener('keydown', e => {
 ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
   inputEl.focus();
+  ensurePhotos(); // warm the photo list while the guest types the password
 });
