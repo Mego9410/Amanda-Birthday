@@ -762,6 +762,8 @@ button { cursor: pointer; border: none; background: none; }
   justify-content: center;
   padding: 8px 20px clamp(40px, 7vw, 70px);
 }
+/* Hide it on the redacted teaser site */
+[data-mode="redacted"] .dumpling-portal { display: none; }
 .dumpling-link {
   display: inline-flex;
   flex-direction: column;
