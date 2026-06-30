@@ -210,6 +210,13 @@ const PASSWORDS_REDACTED = ['2026Amanda', 'TITSOAK'];
 
 function handlePasswordSubmit() {
   const val = inputEl.value.trim();
+  // Secret dumpling-dinner password — jumps straight to the dinner page
+  if (val.toLowerCase() === 'df') {
+    launchConfetti();
+    gateEl.classList.add('exiting');
+    setTimeout(() => { window.location.href = '/dinner'; }, 700);
+    return;
+  }
   if (PASSWORDS_FULL.includes(val) || PASSWORDS_REDACTED.includes(val)) {
     const mode = PASSWORDS_FULL.includes(val) ? 'full' : 'redacted';
     launchConfetti();

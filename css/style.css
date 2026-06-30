@@ -756,6 +756,47 @@ button { cursor: pointer; border: none; background: none; }
   max-width: 480px;
 }
 
+/* Secret dumpling dinner portal */
+.dumpling-portal {
+  display: flex;
+  justify-content: center;
+  padding: 8px 20px clamp(40px, 7vw, 70px);
+}
+.dumpling-link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.dumpling-icon {
+  width: clamp(72px, 14vw, 104px);
+  filter: drop-shadow(0 8px 14px rgba(232,180,120,0.35));
+  transition: transform 0.25s ease;
+  animation: dumpling-bob 3.4s ease-in-out infinite;
+}
+.dumpling-link:hover .dumpling-icon,
+.dumpling-link:focus-visible .dumpling-icon {
+  transform: scale(1.12) rotate(-4deg);
+}
+.dumpling-hint {
+  font-family: var(--f-dancing, cursive);
+  font-size: clamp(15px, 2.4vw, 20px);
+  font-weight: 700;
+  color: var(--bubblegum);
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+.dumpling-link:hover .dumpling-hint { opacity: 1; }
+@keyframes dumpling-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-9px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dumpling-icon { animation: none; }
+}
+
 .story-sign {
   font-family: var(--f-dancing);
   font-size: clamp(20px, 3.5vw, 28px);

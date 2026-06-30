@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pre-party dumplings with Amanda 🥟">
+  <title>Dumplings First! 🥟</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #FFF7EE;
+      --peach:   #FFE3CC;
+      --pink:    #FF9DB0;
+      --pink-soft:#FFC1CE;
+      --mint:    #BCE9D2;
+      --dough:   #F7E5C4;
+      --dough-edge:#E8C98F;
+      --brown:   #6B4E3D;
+      --brown-soft:#9b8473;
+      --f-head: 'Fredoka', sans-serif;
+      --f-body: 'Quicksand', sans-serif;
+    }
+
+    body {
+      font-family: var(--f-body);
+      color: var(--brown);
+      background:
+        radial-gradient(circle at 15% 12%, #FFE9D6 0, transparent 45%),
+        radial-gradient(circle at 85% 20%, #FFE0E8 0, transparent 40%),
+        radial-gradient(circle at 50% 95%, #DFF3E8 0, transparent 45%),
+        var(--cream);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating dumpling/sparkle decorations */
+    .float {
+      position: fixed;
+      font-size: 2rem;
+      opacity: 0.55;
+      pointer-events: none;
+      animation: bob 6s ease-in-out infinite;
+      z-index: 0;
+    }
+    .float.f1 { top: 12%; left: 6%;  animation-delay: 0s;   }
+    .float.f2 { top: 22%; right: 8%; animation-delay: 1.2s; font-size: 1.5rem; }
+    .float.f3 { top: 64%; left: 5%;  animation-delay: 2.1s; }
+    .float.f4 { bottom: 10%; right: 7%; animation-delay: 0.6s; font-size: 1.6rem; }
+    .float.f5 { top: 44%; right: 4%; animation-delay: 1.8s; font-size: 1.3rem; }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(-6deg); }
+      50%      { transform: translateY(-16px) rotate(6deg); }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 48px 22px 70px;
+      text-align: center;
+    }
+
+    /* Mascot */
+    .mascot {
+      width: clamp(150px, 40vw, 210px);
+      margin: 0 auto 6px;
+      animation: squish 3.5s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+    @keyframes squish {
+      0%, 100% { transform: scale(1, 1); }
+      50%      { transform: scale(1.04, 0.96); }
+    }
+
+    .eyebrow {
+      font-family: var(--f-head);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: var(--pink);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-family: var(--f-head);
+      font-weight: 700;
+      font-size: clamp(2.1rem, 7vw, 3.2rem);
+      line-height: 1.05;
+      color: var(--brown);
+      margin-bottom: 12px;
+    }
+    h1 .squiggle { color: var(--pink); }
+    .lede {
+      font-size: clamp(1rem, 2.6vw, 1.15rem);
+      color: var(--brown-soft);
+      max-width: 440px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+
+    /* Card */
+    .card {
+      background: #fff;
+      border: 3px solid var(--dough);
+      border-radius: 26px;
+      padding: 30px 26px;
+      box-shadow: 0 18px 40px rgba(233,180,120,0.18);
+      margin-bottom: 26px;
+      text-align: left;
+    }
+    .card-title {
+      font-family: var(--f-head);
+      font-weight: 600;
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 22px;
+      color: var(--brown);
+    }
+
+    .detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 2px dotted #F0E2CE;
+    }
+    .detail:last-child { border-bottom: none; }
+    .detail-emoji {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      line-height: 1.3;
+    }
+    .detail-label {
+      font-family: var(--f-head);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 2px;
+    }
+    .detail-value {
+      font-size: 1.05rem;
+      color: var(--brown);
+      line-height: 1.45;
+    }
+    .detail-value .tbc {
+      color: var(--brown-soft);
+      font-style: italic;
+    }
+
+    .map-placeholder {
+      margin-top: 16px;
+      border-radius: 16px;
+      background: repeating-linear-gradient(45deg, #FFF3E6, #FFF3E6 12px, #FFEAD7 12px, #FFEAD7 24px);
+      border: 2px dashed var(--dough-edge);
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--brown-soft);
+      font-weight: 600;
+      text-align: center;
+      padding: 16px;
+    }
+    .map-placeholder .pin { font-size: 2rem; }
+
+    /* Form */
+    .form-card { text-align: left; }
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-family: var(--f-head);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--brown);
+      margin-bottom: 8px;
+    }
+    .field .opt { color: var(--brown-soft); text-transform: none; letter-spacing: 0; font-weight: 500; }
+    input[type="text"], textarea, input[type="number"] {
+      width: 100%;
+      font-family: var(--f-body);
+      font-size: 1rem;
+      color: var(--brown);
+      background: #FFFBF5;
+      border: 2px solid #F0E2CE;
+      border-radius: 14px;
+      padding: 12px 15px;
+      outline: none;
+      transition: border-color 0.15s;
+      resize: vertical;
+    }
+    input:focus, textarea:focus { border-color: var(--pink); }
+
+    .choices { display: flex; gap: 10px; flex-wrap: wrap; }
+    .choice {
+      flex: 1 1 0;
+      min-width: 92px;
+      font-family: var(--f-head);
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--brown);
+      background: #FFFBF5;
+      border: 2px solid #F0E2CE;
+      border-radius: 14px;
+      padding: 11px 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .choice:hover { border-color: var(--pink-soft); }
+    .choice.sel { background: var(--pink); border-color: var(--pink); color: #fff; transform: translateY(-1px); }
+
+    .guests-row { display: flex; align-items: center; gap: 12px; }
+    .guests-row input { max-width: 100px; text-align: center; }
+
+    .submit {
+      width: 100%;
+      font-family: var(--f-head);
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      color: #fff;
+      background: var(--pink);
+      border: none;
+      border-radius: 16px;
+      padding: 15px;
+      cursor: pointer;
+      transition: transform 0.12s, opacity 0.15s;
+      box-shadow: 0 8px 18px rgba(255,157,176,0.4);
+    }
+    .submit:hover { transform: translateY(-2px); }
+    .submit:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .err { color: #E8607A; font-weight: 600; margin-top: 12px; text-align: center; min-height: 18px; }
+
+    .success {
+      text-align: center;
+      padding: 14px 6px;
+    }
+    .success .big { font-size: 3.4rem; margin-bottom: 10px; animation: squish 2.5s ease-in-out infinite; }
+    .success h2 { font-family: var(--f-head); color: var(--pink); font-size: 1.7rem; margin-bottom: 8px; }
+    .success p { color: var(--brown-soft); }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 8px;
+      font-family: var(--f-head);
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--brown-soft);
+      text-decoration: none;
+      background: #fff;
+      border: 2px solid var(--dough);
+      border-radius: 30px;
+      padding: 9px 20px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .back:hover { color: var(--pink); border-color: var(--pink-soft); }
+  </style>
+</head>
+<body>
+
+<span class="float f1">🥟</span>
+<span class="float f2">✨</span>
+<span class="float f3">🥢</span>
+<span class="float f4">🥟</span>
+<span class="float f5">💕</span>
+
+<div class="wrap">
+
+  <!-- Chibi dumpling mascot -->
+  <svg class="mascot" viewBox="0 0 200 168" role="img" aria-label="Cute dumpling">
+    <ellipse cx="100" cy="118" rx="20" ry="6" fill="#EAD3A8" opacity="0.5"/>
+    <path d="M24 78 Q34 48 50 74 Q66 46 82 74 Q100 44 118 74 Q134 46 150 74 Q166 48 176 78 Z"
+          fill="#FBEFD6" stroke="#E8C98F" stroke-width="3.5" stroke-linejoin="round"/>
+    <ellipse cx="100" cy="104" rx="80" ry="54" fill="#F7E5C4" stroke="#E8C98F" stroke-width="3.5"/>
+    <circle cx="60" cy="112" r="12" fill="#FFB3C1" opacity="0.75"/>
+    <circle cx="140" cy="112" r="12" fill="#FFB3C1" opacity="0.75"/>
+    <circle cx="80" cy="100" r="6.5" fill="#5b4636"/>
+    <circle cx="120" cy="100" r="6.5" fill="#5b4636"/>
+    <circle cx="82.5" cy="97.5" r="2.2" fill="#fff"/>
+    <circle cx="122.5" cy="97.5" r="2.2" fill="#fff"/>
+    <path d="M90 113 Q100 122 110 113" fill="none" stroke="#5b4636" stroke-width="3.2" stroke-linecap="round"/>
+  </svg>
+
+  <div class="eyebrow">Top secret · invite only</div>
+  <h1>Dumplings <span class="squiggle">first!</span> 🥟</h1>
+  <p class="lede">Before we raise hell at the Burn Book bash, we're lining our stomachs with the good stuff. Come get cosy and carb-loaded with us first!</p>
+
+  <!-- Details -->
+  <div class="card">
+    <div class="card-title">The dumpling deets 🍡</div>
+
+    <div class="detail">
+      <span class="detail-emoji">📅</span>
+      <div>
+        <div class="detail-label">When</div>
+        <div class="detail-value">Saturday 8th August 2026</div>
+      </div>
+    </div>
+    <div class="detail">
+      <span class="detail-emoji">⏰</span>
+      <div>
+        <div class="detail-label">Time</div>
+        <div class="detail-value">6:00pm sharp — right before the 7:30 party</div>
+      </div>
+    </div>
+    <div class="detail">
+      <span class="detail-emoji">🥟</span>
+      <div>
+        <div class="detail-label">What</div>
+        <div class="detail-value">Local dumplings &amp; good company</div>
+      </div>
+    </div>
+    <div class="detail">
+      <span class="detail-emoji">📍</span>
+      <div>
+        <div class="detail-label">Where</div>
+        <div class="detail-value"><span class="tbc">Dumpling spot — to be confirmed!</span></div>
+      </div>
+    </div>
+
+    <div class="map-placeholder">
+      <span class="pin">📍</span>
+      <span>Location dropping soon — watch this space 🥟</span>
+    </div>
+  </div>
+
+  <!-- Headcount form -->
+  <div class="card form-card">
+    <div class="card-title">Coming for dumplings? 🥢</div>
+
+    <form id="dinner-form" novalidate>
+      <div class="field">
+        <label for="d-name">Your name</label>
+        <input type="text" id="d-name" name="full_name" placeholder="Who's coming?" autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label>Are you in?</label>
+        <div class="choices" role="group" aria-label="Coming to dumplings">
+          <button type="button" class="choice" data-val="yes">Yes please 🥟</button>
+          <button type="button" class="choice" data-val="maybe">Maybe 🤔</button>
+          <button type="button" class="choice" data-val="no">Can't 😢</button>
+        </div>
+        <input type="hidden" id="d-attending" name="attending">
+      </div>
+
+      <div class="field">
+        <label for="d-guests">How many of you? <span class="opt">(including you)</span></label>
+        <div class="guests-row">
+          <input type="number" id="d-guests" name="guests" min="1" max="20" value="1">
+          <span style="color:var(--brown-soft)">little dumpling-eaters 🥟</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="d-note">Anything to add? <span class="opt">(allergies, requests…)</span></label>
+        <textarea id="d-note" name="note" rows="2" placeholder="Optional…"></textarea>
+      </div>
+
+      <button type="submit" class="submit" id="d-submit">
+        <span class="btn-label">Count me in! 🥟</span>
+        <span class="btn-loading" hidden>Saving…</span>
+      </button>
+      <p class="err" id="d-error" hidden></p>
+    </form>
+
+    <div id="d-success" class="success" hidden>
+      <div class="big">🥟</div>
+      <h2>Yay! You're in!</h2>
+      <p>See you at the dumplings, cutie 💕</p>
+    </div>
+  </div>
+
+  <a href="/" class="back">← back to the Burn Book</a>
+
+</div>
+
+<script>
+  const form      = document.getElementById('dinner-form');
+  const choices   = form.querySelectorAll('.choice');
+  const attending = document.getElementById('d-attending');
+  const submitBtn = document.getElementById('d-submit');
+  const errorEl   = document.getElementById('d-error');
+  const successEl = document.getElementById('d-success');
+
+  choices.forEach(btn => btn.addEventListener('click', () => {
+    choices.forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    attending.value = btn.dataset.val;
+  }));
+
+  function showErr(msg) { errorEl.textContent = msg; errorEl.hidden = false; }
+  function setLoading(on) {
+    submitBtn.disabled = on;
+    submitBtn.querySelector('.btn-label').hidden = on;
+    submitBtn.querySelector('.btn-loading').hidden = !on;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+    const name = form.full_name.value.trim();
+    const att  = attending.value;
+    const guests = parseInt(form.guests.value, 10) || 1;
+    const note = form.note.value.trim();
+    if (!name) { showErr('Pop your name in first! 🥟'); return; }
+    if (!att)  { showErr('Let us know if you\'re coming!'); return; }
+
+    setLoading(true);
+    try {
+      const res = await fetch('/api/dinner', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ full_name: name, attending: att, guests, note: note || null }),
+      });
+      if (!res.ok) throw new Error('failed');
+    } catch (err) {
+      setLoading(false);
+      showErr('Oops — something went wrong. Try again? 🥲');
+      return;
+    }
+    setLoading(false);
+    form.hidden = true;
+    successEl.hidden = false;
+  });
+</script>
+</body>
+</html>

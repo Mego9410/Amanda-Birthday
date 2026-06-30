@@ -394,6 +394,33 @@
     </table>
     <div id="empty" class="empty-state" hidden>No RSVPs yet — check back soon 💋</div>
   </div>
+
+  <!-- Dumpling dinner headcount -->
+  <div class="panel-header" style="margin-top:56px">
+    <div class="panel-header-text">
+      <div class="panel-title">Dumpling Dinner 🥟</div>
+      <div class="panel-sub">Pre-party headcount · newest first</div>
+    </div>
+  </div>
+
+  <div class="stats" id="dinner-stats"></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Coming</th>
+          <th>Guests</th>
+          <th>Note</th>
+          <th>Submitted</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="dinner-tbody"></tbody>
+    </table>
+    <div id="dinner-empty" class="empty-state" hidden>No dumpling RSVPs yet 🥟</div>
+  </div>
 </div>
 
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -409,8 +436,12 @@
   const emptyEl  = document.getElementById('empty');
   const exportEl = document.getElementById('export-btn');
   const logoutEl = document.getElementById('logout-btn');
+  const dStatsEl = document.getElementById('dinner-stats');
+  const dTbodyEl = document.getElementById('dinner-tbody');
+  const dEmptyEl = document.getElementById('dinner-empty');
 
   let _rsvps = [];
+  let _dinner = [];
   let _adminKey = '';
 
   async function tryLogin() {
@@ -437,6 +468,7 @@
       _adminKey = key;
       gateEl.classList.add('hidden');
       renderPanel(data.rsvps || []);
+      renderDinner(data.dinner || []);
     } catch (e) {
       errorEl.textContent = 'Network error — try again.';
       btnEl.disabled = false;
@@ -502,6 +534,44 @@
     return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
+  function renderDinner(dinner) {
+    _dinner = dinner;
+    const coming = dinner.filter(d => d.attending === 'yes');
+    const heads  = coming.reduce((sum, d) => sum + (parseInt(d.guests, 10) || 1), 0);
+
+    dStatsEl.innerHTML = [
+      { num: dinner.length, label: 'Responses' },
+      { num: coming.length, label: 'Coming 🥟'  },
+      { num: heads,         label: 'Total heads' },
+    ].map(s => `
+      <div class="stat-card">
+        <div class="stat-num">${s.num}</div>
+        <div class="stat-label">${s.label}</div>
+      </div>
+    `).join('');
+
+    dEmptyEl.hidden = dinner.length !== 0;
+    dTbodyEl.innerHTML = dinner.length === 0 ? '' : dinner.map(d => {
+      const date = new Date(d.created_at).toLocaleString('en-GB', {
+        day: 'numeric', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      });
+      const note = d.note
+        ? `<span class="quote-cell">${escHtml(d.note)}</span>`
+        : '<span style="opacity:0.25">—</span>';
+      return `
+        <tr class="${d.attending === 'yes' ? '' : 'is-hidden'}">
+          <td>${escHtml(d.full_name)}</td>
+          <td><span class="badge badge-${d.attending}">${d.attending}</span></td>
+          <td>${escHtml(d.guests)}</td>
+          <td>${note}</td>
+          <td class="date-cell">${date}</td>
+          <td><button class="del-btn del-dinner" data-id="${d.id}">🗑 Delete</button></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
   function exportToExcel() {
     if (!_rsvps.length) return;
 
@@ -543,11 +613,15 @@
 
       if (action === 'delete') {
         _rsvps = _rsvps.filter(r => r.id !== id);
+        renderPanel(_rsvps);
+      } else if (action === 'delete_dinner') {
+        _dinner = _dinner.filter(d => d.id !== id);
+        renderDinner(_dinner);
       } else {
         const r = _rsvps.find(x => x.id === id);
         if (r) r.approved = (action === 'approve');
+        renderPanel(_rsvps);
       }
-      renderPanel(_rsvps);
     } catch (e) {
       alert('Something went wrong — please try again.');
       if (toggleEl) toggleEl.checked = !toggleEl.checked; // revert the flip
@@ -565,6 +639,12 @@
     const btn = e.target.closest('.del-btn');
     if (btn && confirm('Delete this RSVP permanently? This cannot be undone.')) {
       applyAdminAction('delete', btn.dataset.id);
+    }
+  });
+  dTbodyEl.addEventListener('click', e => {
+    const btn = e.target.closest('.del-dinner');
+    if (btn && confirm('Delete this dumpling RSVP permanently?')) {
+      applyAdminAction('delete_dinner', btn.dataset.id);
     }
   });
 

@@ -24,6 +24,18 @@ CREATE TABLE IF NOT EXISTS rsvps (
 -- single line to add the new column to your existing rsvps table:
 -- ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS approved BOOLEAN NOT NULL DEFAULT FALSE;
 
+-- ── DUMPLING DINNER HEADCOUNT ───────────────────────────────────
+-- Pre-party dumpling dinner RSVPs (separate from the main party RSVP).
+-- Run this block on its own too.
+CREATE TABLE IF NOT EXISTS dinner_rsvps (
+  id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  full_name   TEXT        NOT NULL,
+  attending   TEXT        NOT NULL CHECK (attending IN ('yes', 'no', 'maybe')),
+  guests      INT         NOT NULL DEFAULT 1,
+  note        TEXT
+);
+
 -- ── OPTIONAL CLEANUP ────────────────────────────────────────────
 -- The separate burn_book_entries table is no longer used — memories now
 -- live in rsvps. You can drop it if you created it earlier:
