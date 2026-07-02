@@ -236,6 +236,7 @@ function handlePasswordSubmit() {
         initScrollReveal();
         initParallax();
         initRSVP();
+        initDumplingGate();
         loadBurnBookEntries();
         startBurnBookPolling();
       }));
@@ -485,6 +486,27 @@ function buildGallery() {
     });
 
     grid.appendChild(pol);
+  });
+}
+
+/* ============================================================
+   DUMPLING DINNER GATE
+   Clicking the dumpling asks for the "DF" password before it
+   lets you through to the dinner page.
+============================================================ */
+function initDumplingGate() {
+  const link = document.querySelector('.dumpling-link');
+  if (!link || link.dataset.gated) return;
+  link.dataset.gated = '1';
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const ans = window.prompt('Enter the secret code for dumplings 🥟');
+    if (ans === null) return; // cancelled
+    if (ans.trim().toLowerCase() === 'df') {
+      window.location.href = '/dinner';
+    } else {
+      alert('Nope — that\'s not the dumpling code 🥟');
+    }
   });
 }
 
