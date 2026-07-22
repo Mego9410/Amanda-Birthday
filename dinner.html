@@ -155,23 +155,14 @@
       font-style: italic;
     }
 
-    .map-placeholder {
+    .map {
       margin-top: 16px;
       border-radius: 16px;
-      background: repeating-linear-gradient(45deg, #FFF3E6, #FFF3E6 12px, #FFEAD7 12px, #FFEAD7 24px);
-      border: 2px dashed var(--dough-edge);
-      min-height: 150px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      color: var(--brown-soft);
-      font-weight: 600;
-      text-align: center;
-      padding: 16px;
+      overflow: hidden;
+      border: 2px solid var(--dough-edge);
+      min-height: 190px;
     }
-    .map-placeholder .pin { font-size: 2rem; }
+    .map iframe { display: block; width: 100%; height: 100%; min-height: 190px; }
 
     /* Form */
     .form-card { text-align: left; }
@@ -328,13 +319,20 @@
       <span class="detail-emoji">📍</span>
       <div>
         <div class="detail-label">Where</div>
-        <div class="detail-value"><span class="tbc">Dumpling spot — to be confirmed!</span></div>
+        <div class="detail-value">Dimsum &amp; Noodles by APUS<br>10 Church Ln, Bushwood, London E11 1HG</div>
       </div>
     </div>
 
-    <div class="map-placeholder">
-      <span class="pin">📍</span>
-      <span>Location dropping soon — watch this space 🥟</span>
+    <div class="map">
+      <iframe
+        src="https://www.google.com/maps?q=Dimsum+%26+Noodles+by+APUS,+10+Church+Ln,+London+E11+1HG&output=embed"
+        width="100%" height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Dimsum & Noodles by APUS — dinner location"
+      ></iframe>
     </div>
   </div>
 
